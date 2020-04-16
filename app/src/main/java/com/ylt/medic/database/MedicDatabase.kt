@@ -13,7 +13,7 @@ import com.ylt.medic.database.model.*
 /**
  * Created by yoannlt on 14/06/2017.
  */
-@Database(version = 6, exportSchema = false,
+@Database(version = 5, exportSchema = false,
     entities =
         arrayOf(
             ASMR::class,
@@ -34,7 +34,7 @@ abstract class MedicDatabase : RoomDatabase() {
         fun getInstance(context: Context): MedicDatabase {
             var instance = instance
             if (instance == null) {
-                instance = Room.databaseBuilder(context.applicationContext, MedicDatabase::class.java, "medicamentdb")
+                instance = Room.databaseBuilder(context.applicationContext, MedicDatabase::class.java, "medicament")
                         .allowMainThreadQueries()
                         .build()
                 this.instance = instance

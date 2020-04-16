@@ -138,6 +138,14 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/button_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notice d'utilisation"
+                android:layout_gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="match_parent"

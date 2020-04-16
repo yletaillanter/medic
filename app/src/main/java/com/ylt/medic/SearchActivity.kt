@@ -39,7 +39,7 @@ class SearchActivity : BaseActivity(), ClickListener {
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SearchViewModel::class.java)
 
         initLayoutElement()
-        getByCis("60474889")
+        //getByCis("60474889")
     }
 
     override val contentViewId: Int
@@ -77,13 +77,6 @@ class SearchActivity : BaseActivity(), ClickListener {
 
     fun startSearching(query:String) {
         model.searchByMedic(query).subscribe { response ->
-            this.data = arrayToArrayList(response)
-            adapter.replace(this.data)
-        };
-    }
-
-    fun getByCip7(cip:String) {
-        model.getMedicByCip7(cip).subscribe { response ->
             this.data = arrayToArrayList(response)
             adapter.replace(this.data)
         };

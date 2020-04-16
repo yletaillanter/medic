@@ -1,6 +1,9 @@
 package com.ylt.medic
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.widget.Button
 import android.widget.TextView
 import com.ylt.medic.database.MedicDatabase
 import com.ylt.medic.database.model.Medicament
@@ -32,6 +35,7 @@ class MedicDetailActivity : AppCompatActivity() {
     lateinit var refSubstanceTextView:TextView
     private lateinit var natureComposantTextView:TextView
 
+    lateinit var noticeButton: Button
     lateinit var fab: FloatingActionButton
     lateinit var toolbar: Toolbar
 
@@ -59,6 +63,7 @@ class MedicDetailActivity : AppCompatActivity() {
         dosageSubstanceTextView = findViewById(R.id.dosage_substance)
         refSubstanceTextView = findViewById(R.id.ref_substance)
         natureComposantTextView = findViewById(R.id.nature_composant)
+        noticeButton = findViewById(R.id.button_notice)
 
         //Get the medic
         val id:Long = getIntent().getLongExtra("id", 0)
@@ -73,6 +78,13 @@ class MedicDetailActivity : AppCompatActivity() {
         dateAuthorTextView.text = ""+currentMedicament.dateAmm
         titulaireTextView.text = currentMedicament.titulaire
         survRenforceeTextView.text = currentMedicament.survRenforcee
+
+        noticeButton.setOnClickListener {
+            val intent = Intent(this, NoticeActivity::class.java).apply {
+                putExtra(EXTRA_MESSAGE, currentMedicament.codeCis)
+            }
+            startActivity(intent)
+        }
 
         // TODO modif par compo
         /*
