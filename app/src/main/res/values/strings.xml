@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Médicament</string>
+    <string name="title_search">Search</string>
+    <string name="title_bookmark">Bookmark</string>
+    <string name="title_about">About</string>
+    <string name="search_title">Rechercher</string>
+    <string name="search_hint">Entrer un nom de médicament</string>
+    <string name="label_forme_pharma">Forme :</string>
+    <string name="label_voie_admin">Voie d\'administration :</string>
+    <string name="label_status">Status :</string>
+    <string name="label_etat">Etat commercialisation :</string>
+    <string name="label_date_amm">Date autorisation mise sur le marché :</string>
+    <string name="label_titulaire">Titulaire :</string>
+    <string name="label_surv_renforcee">Surveillance renforcée :</string>
+    <string name="label_designation_elem">Elément pharmaceutique :</string>
+    <string name="label_info_general">Informations générales</string>
+    <string name="label_compo">Composition</string>
+    <string name="label_deno_substance">Denomination substance :</string>
+    <string name="label_code_substance">Code substance :</string>
+    <string name="label_dosage_substance">Dosage substance :</string>
+    <string name="label_ref_substance">Compo de ref pour :</string>
+    <string name="label_nature_composant">Nature composant :</string>
+</resources>
