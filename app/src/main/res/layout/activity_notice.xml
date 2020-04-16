@@ -8,13 +8,6 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </WebView>
-
-    <!--
     <TextView
         android:id="@+id/notice"
         android:layout_width="match_parent"
@@ -24,7 +17,6 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
     </TextView>
-    -->
 </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -35,14 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/label_info_general"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/label_info_general"
-                android:textSize="20sp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -84,8 +76,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            tools:text="Comprimé"/>
+                            android:layout_marginTop="8dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -104,10 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            app:layout_constraintLeft_toRightOf="@+id/label_voie_admin"
-                            app:layout_constraintTop_toBottomOf="@+id/label_forme_pharma"
-                            tools:text="Orale" />
+                            android:layout_marginTop="8dp" />
                     </LinearLayout>
 
                 <LinearLayout
@@ -121,13 +109,12 @@
                         android:layout_weight="0.33"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="5$" />
+                        android:layout_gravity="center_horizontal"/>
                     <TextView
                         android:id="@+id/remb_rate"
                         android:layout_weight="0.33"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="tx remb : 65%"/>
+                        android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/rest"
                         android:layout_weight="0.33"
@@ -145,7 +132,10 @@
                 android:text="Notice d'utilisation"
                 android:layout_gravity="center"
                 android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp"
+                android:layout_margin="20sp"
+                android:drawableRight="@drawable/ic_notice_24dp"/>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
@@ -158,6 +148,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <TextView
+                android:id="@+id/label_info_general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_info_general"
+                android:textStyle="bold"
+                android:textSize="@dimen/textTitle" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -168,19 +167,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="@string/label_status"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label_voie_admin" />
+                    android:text="@string/label_status" />
 
                 <TextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintLeft_toRightOf="@+id/label_status"
-                    app:layout_constraintTop_toBottomOf="@+id/label_voie_admin"
-                    tools:text="Autorisation Active" />
+                    android:layout_marginTop="8dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -192,19 +186,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="@string/label_etat"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label_status" />
+                    android:text="@string/label_etat" />
 
                 <TextView
                     android:id="@+id/etat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintLeft_toRightOf="@+id/label_etat"
-                    app:layout_constraintTop_toBottomOf="@+id/label_status"
-                    tools:text="Commercialisée" />
+                    android:layout_marginTop="8dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -216,9 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="7dp"
-                    android:text="@string/label_date_amm"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label_etat" />
+                    android:text="@string/label_date_amm" />
 
                 <TextView
                     android:id="@+id/date_amm"
@@ -240,19 +227,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="@string/label_titulaire"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label_date_amm" />
+                    android:text="@string/label_titulaire" />
 
                 <TextView
                     android:id="@+id/titulaire"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintLeft_toRightOf="@+id/label_titulaire"
-                    app:layout_constraintTop_toBottomOf="@+id/label_date_amm"
-                    tools:text="SANOFI AVENTIS FRANCE" />
+                    android:layout_marginTop="8dp" />
             </LinearLayout>
 
         <LinearLayout
@@ -266,140 +248,16 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:labelFor="@+id/label_surv_renforcee"
-                android:text="@string/label_surv_renforcee"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                android:text="@string/label_surv_renforcee" />
 
             <TextView
                 android:id="@+id/surv_renforcee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_surv_renforcee"
-                app:layout_constraintTop_toBottomOf="parent"
-                tools:text="Non" />
+                android:layout_marginTop="8dp" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/label_designation_elem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/label_designation_elem"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_surv_renforcee" />
 
-            <TextView
-                android:id="@+id/designation_elem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_designation_elem"
-                app:layout_constraintTop_toBottomOf="@+id/label_surv_renforcee"
-                tools:text="Comprimé" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/label_deno_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/label_deno_substance"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_designation_elem" />
-
-            <TextView
-                android:id="@+id/deno_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_deno_substance"
-                app:layout_constraintTop_toBottomOf="@+id/label_designation_elem"
-                tools:text="PARACETAMOL" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/label_code_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/label_code_substance"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_deno_substance" />
-
-            <TextView
-                android:id="@+id/code_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_code_substance"
-                app:layout_constraintTop_toBottomOf="@+id/label_deno_substance"
-                tools:text="2202" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/label_dosage_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/label_dosage_substance"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_code_substance" />
-
-            <TextView
-                android:id="@+id/dosage_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_dosage_substance"
-                app:layout_constraintTop_toBottomOf="@+id/label_code_substance"
-                tools:text="1000mg" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/label_ref_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/label_ref_substance"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_dosage_substance" />
-
-            <TextView
-                android:id="@+id/ref_substance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_ref_substance"
-                app:layout_constraintTop_toBottomOf="@+id/label_dosage_substance"
-                tools:text="un comprimé" />
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -410,20 +268,232 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/label_nature_composant"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_ref_substance" />
+                android:text="@string/label_nature_composant" />
 
             <TextView
                 android:id="@+id/nature_composant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/label_nature_composant"
-                app:layout_constraintTop_toBottomOf="@+id/label_ref_substance"
-                tools:text="SA" />
+                android:layout_marginTop="8dp" />
         </LinearLayout>
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            app:cardBackgroundColor="#fafaf0">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/generique"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="@dimen/textTitle"
+                    android:textStyle="bold"
+                    tools:text="Générique" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/id_grp_gener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/id_grp_gener" />
+
+                    <TextView
+                        android:id="@+id/grp_gener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/label_lib_grp_gener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_lib_grp_gener" />
+
+                    <TextView
+                        android:id="@+id/lib_grp_gener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/label_typ_gener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_typ_gener" />
+
+                    <TextView
+                        android:id="@+id/typ_gener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/label_num_tri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_num_tri" />
+
+                    <TextView
+                        android:id="@+id/num_tri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            app:cardBackgroundColor="#fafaf0">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/composition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="@dimen/textTitle"
+                android:textStyle="bold"
+                tools:text="@string/composition" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/label_designation_elem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/label_designation_elem" />
+
+                <TextView
+                    android:id="@+id/designation_elem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/label_code_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/label_code_substance" />
+                <TextView
+                    android:id="@+id/code_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/label_deno_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/label_deno_substance" />
+                <TextView
+                    android:id="@+id/deno_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/label_dosage_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/label_dosage_substance" />
+                <TextView
+                    android:id="@+id/dosage_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/label_ref_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/label_ref_substance" />
+                <TextView
+                    android:id="@+id/ref_substance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
         </LinearLayout>
         </androidx.cardview.widget.CardView>
         </LinearLayout>

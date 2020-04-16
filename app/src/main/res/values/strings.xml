@@ -20,4 +20,9 @@
     <string name="label_dosage_substance">Dosage substance :</string>
     <string name="label_ref_substance">Compo de ref pour :</string>
     <string name="label_nature_composant">Nature composant :</string>
+    <string name="id_grp_gener">Groupe générique :</string>
+    <string name="label_lib_grp_gener">Libellé du groupe :</string>
+    <string name="label_typ_gener">Type de générique</string>
+    <string name="label_num_tri">Numéro de tri</string>
+    <string name="composition">Composition</string>
 </resources>
