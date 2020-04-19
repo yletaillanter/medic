@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 import java.util.*
 
 @Entity(tableName = "presentation")
@@ -23,4 +22,8 @@ data class Presentation (
     @ColumnInfo(name = "tx_remboursement") var txRemboursement: String = "",
     @ColumnInfo(name = "prix_medic_euro") var prixMedicEuro: String = "",
     @ColumnInfo(name = "indic_droit_remb") var indicDroitRemb: String = ""
-)
+) {
+    override fun toString(): String {
+        return "Presentation(id=$id, codeCis='$codeCis', codeCip7='$codeCip7', codeCip13='$codeCip13', libellePresentation='$libellePresentation', statutAdminPres='$statutAdminPres', etatCommer='$etatCommer', dateDeclaCommer='$dateDeclaCommer', agrementCollec='$agrementCollec', txRemboursement='$txRemboursement', prixMedicEuro='$prixMedicEuro', indicDroitRemb='$indicDroitRemb')"
+    }
+}

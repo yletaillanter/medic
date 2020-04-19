@@ -16,4 +16,8 @@ data class Generique (
     @ColumnInfo(name = "libelle_grp_gener") var libelleGrpGener: String = "",
     @ColumnInfo(name = "type_gener") var typeGener: String = "",
     @ColumnInfo(name = "numero_tri") var numeroTri: String = ""
-)
+) {
+    override fun toString(): String {
+        return "Generique(id=$id, codeCis='$codeCis', idGrpGener='$idGrpGener', libelleGrpGener='$libelleGrpGener', typeGener='$typeGener', numeroTri='$numeroTri')"
+    }
+}

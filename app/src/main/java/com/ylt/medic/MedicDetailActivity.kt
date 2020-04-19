@@ -15,8 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MedicDetailActivity : AppCompatActivity() {
 
-    lateinit var db: MedicDatabase
-
     lateinit var currentMedicament:Medicament
 
     lateinit var denominationTextView:TextView
@@ -36,8 +34,8 @@ class MedicDetailActivity : AppCompatActivity() {
     private lateinit var natureComposantTextView:TextView
 
     lateinit var noticeButton: Button
-    lateinit var fab: FloatingActionButton
     lateinit var toolbar: Toolbar
+    //lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +64,8 @@ class MedicDetailActivity : AppCompatActivity() {
         noticeButton = findViewById(R.id.button_notice)
 
         //Get the medic
-        val id:Long = getIntent().getLongExtra("id", 0)
-        currentMedicament = model.getById(id)
+        val codeCis:String = getIntent().getStringExtra("code_cis")
+        currentMedicament = model.getByCis(codeCis)
 
         //Set view elements
         denominationTextView.text = currentMedicament.denomination
@@ -86,7 +84,7 @@ class MedicDetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // TODO modif par compo
+        // TODO remplir full detail UI
         /*
         elemPharmaTextView.text = currentMedicament!!.designation_elem_ph
         denominationSubstanceTextView.text = currentMedicament.deno_substance
@@ -96,8 +94,15 @@ class MedicDetailActivity : AppCompatActivity() {
         natureComposantTextView.text = currentMedicament.nature_composant
         */
 
-        // Fab bouton
 
+
+
+
+
+
+
+        // TODO bookmarked medic
+        // Fab bouton
         /*
         fab = findViewById(R.id.favorite) as FloatingActionButton
         if(currentMedicament.isBookmarked)
@@ -114,5 +119,4 @@ class MedicDetailActivity : AppCompatActivity() {
         })
         */
     }
-
 }

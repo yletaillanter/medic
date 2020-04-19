@@ -66,7 +66,7 @@ class NoticeActivity : AppCompatActivity() {
     }
 
 
-    private suspend fun httpGet(myURL: String?): Document {
+    private suspend fun httpGet(myURL: String): Document {
         Log.d(TAG, myURL)
 
         return withContext(Dispatchers.IO) {

@@ -8,6 +8,6 @@ data class SmrResponse (
     @SerializedName("motif_eval") var motifEval: String = "",
     @SerializedName("date_avis_comm_transp") var dateAvisCommTransp: String = "",
     @SerializedName("valeur_asmr") var valeurSmr: String = "",
-    @SerializedName("libelle_asmr") var libelleSmr: String = "",
-    @SerializedName("liens_ct") var liensAvisCT: Array<String> = emptyArray()
+    @SerializedName("libelle_asmr") var libelleSmr: String = ""
+    //@SerializedName("liens_ct") var liensAvisCT: Array<String> = emptyArray()
 )

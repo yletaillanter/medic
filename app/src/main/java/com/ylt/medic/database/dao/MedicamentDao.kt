@@ -1,9 +1,7 @@
 package com.ylt.medic.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import com.ylt.medic.database.model.Medicament
 
 /**
@@ -18,10 +16,13 @@ interface MedicamentDao {
     fun getBookmarked(): List<Medicament>
 
     @Query("SELECT * FROM medicament WHERE code_cis  = (:code_cis)")
-    fun loadMedicByCis(code_cis: String): Medicament
+    fun getMedicByCis(code_cis: String): Medicament
+
+    @Query("SELECT id FROM medicament WHERE code_cis  = (:code_cis)")
+    fun getIdByCis(code_cis: String): Long
 
     @Query("SELECT * FROM medicament WHERE id  = (:id)")
-    fun loadMedicById(id: Long): Medicament
+    fun getMedicById(id: Long): Medicament
 
     @Query("SELECT id FROM medicament WHERE code_cis  = (:code_cis) AND denomination  = (:denomination)")
     fun getIdOfExistingMedic(code_cis: String, denomination: String): Long
@@ -29,7 +30,7 @@ interface MedicamentDao {
     @Query("UPDATE medicament SET isBookmarked = (:state) WHERE id = (:id)")
     fun setAsBookmarkedById(id: Long, state: Boolean)
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun insert(vararg medic: Medicament): List<Long>
 
     @Delete

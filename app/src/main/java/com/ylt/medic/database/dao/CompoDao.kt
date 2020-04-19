@@ -1,9 +1,6 @@
 package com.ylt.medic.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.ylt.medic.database.model.Compo
 
 @Dao
@@ -15,9 +12,12 @@ interface CompoDao {
     @Query("SELECT * FROM composition WHERE code_cis = :codeCis")
     fun getCompoByCis(codeCis: String): List<Compo>
 
-    @Insert
-    fun insert(vararg medic: Compo): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg compo: Compo): List<Long>
 
     @Delete
-    fun delete(medic: Compo)
+    fun delete(compo: Compo)
+
+    @Query("DELETE FROM composition")
+    fun deleteTable()
 }

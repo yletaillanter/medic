@@ -1,10 +1,9 @@
 package com.ylt.medic.database.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.ylt.medic.database.model.ASMR
 
+@Dao
 interface AsmrDao {
 
     @Query("SELECT * FROM asmr")
@@ -13,9 +12,12 @@ interface AsmrDao {
     @Query("SELECT * FROM asmr WHERE code_cis = :codeCis")
     fun getAsmrByCis(codeCis: String): List<ASMR>
 
-    @Insert
-    fun insert(vararg medic: ASMR): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg asmr: ASMR): List<Long>
 
     @Delete
-    fun delete(medic: ASMR)
+    fun delete(asmr: ASMR)
+
+    @Query("DELETE FROM asmr")
+    fun deleteTable()
 }

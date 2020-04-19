@@ -1,10 +1,9 @@
 package com.ylt.medic.database.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.ylt.medic.database.model.Generique
 
+@Dao
 interface GeneriqueDao {
 
     @Query("SELECT * FROM generique")
@@ -13,9 +12,12 @@ interface GeneriqueDao {
     @Query("SELECT * FROM generique WHERE code_cis = :codeCis")
     fun getGeneriqueByCis(codeCis: String): List<Generique>
 
-    @Insert
-    fun insert(vararg medic: Generique): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg generique: Generique): List<Long>
 
     @Delete
-    fun delete(medic: Generique)
+    fun delete(generique: Generique)
+
+    @Query("DELETE FROM generique")
+    fun deleteTable()
 }

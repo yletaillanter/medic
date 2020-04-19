@@ -15,4 +15,8 @@ data class Compo (
     @ColumnInfo(name = "ref_substance") var refSubstance: String = "",
     @ColumnInfo(name = "nature_composant") var natureComposant: String = "",
     @ColumnInfo(name = "num_liaison_sa_ft") var numLiaisonSaFt: String = ""
-)
+) {
+    override fun toString(): String {
+        return "Compo(id=$id, codeCis='$codeCis', designationElemPh='$designationElemPh', codeSubstance='$codeSubstance', denoSubstance='$denoSubstance', dosageSubstance='$dosageSubstance', refSubstance='$refSubstance', natureComposant='$natureComposant', numLiaisonSaFt='$numLiaisonSaFt')"
+    }
+}

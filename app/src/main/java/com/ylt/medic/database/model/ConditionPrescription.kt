@@ -12,4 +12,8 @@ data class ConditionPrescription (
 
     @ColumnInfo(name = "code_cis") var codeCis: String = "",
     @ColumnInfo(name = "condition") var condition: String = ""
-)
+) {
+    override fun toString(): String {
+        return "ConditionPrescription(id=$id, codeCis='$codeCis', condition='$condition')"
+    }
+}

@@ -16,4 +16,8 @@ data class ASMR (
     @ColumnInfo(name = "date_avis_comm_transp") var dateAvisCommTransp: String = "",
     @ColumnInfo(name = "valeur_asmr") var valeurAsmr: String = "",
     @ColumnInfo(name = "libelle_asmr") var libelleAsmr: String = ""
-)
+) {
+    override fun toString(): String {
+        return "ASMR(id=$id, codeCis='$codeCis', codeDossierHas='$codeDossierHas', motifEval='$motifEval', dateAvisCommTransp='$dateAvisCommTransp', valeurAsmr='$valeurAsmr', libelleAsmr='$libelleAsmr')"
+    }
+}

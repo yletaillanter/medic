@@ -16,4 +16,8 @@ data class SMR (
     @ColumnInfo(name = "date_avis_comm_transp") var dateAvisCommTransp: String = "",
     @ColumnInfo(name = "valeur_asmr") var valeurSmr: String = "",
     @ColumnInfo(name = "libelle_asmr") var libelleSmr: String = ""
-)
+) {
+    override fun toString(): String {
+        return "SMR(id=$id, codeCis='$codeCis', codeDossierHas='$codeDossierHas', motifEval='$motifEval', dateAvisCommTransp='$dateAvisCommTransp', valeurSmr='$valeurSmr', libelleSmr='$libelleSmr')"
+    }
+}

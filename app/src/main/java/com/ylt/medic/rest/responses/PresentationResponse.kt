@@ -3,7 +3,7 @@ package com.ylt.medic.rest.responses
 import com.google.gson.annotations.SerializedName
 
 data class PresentationResponse (
-    @SerializedName("code_cis") var codeCis: String = "",
+    @SerializedName("code_cis") var codeCis: String = "TOTO",
     @SerializedName("code_cip7") var codeCip7: String = "",
     @SerializedName("code_cip13") var codeCip13: String = "",
     @SerializedName("libelle_presentation") var libellePresentation: String = "",

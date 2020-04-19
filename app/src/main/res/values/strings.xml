@@ -25,4 +25,19 @@
     <string name="label_typ_gener">Type de générique</string>
     <string name="label_num_tri">Numéro de tri</string>
     <string name="composition">Composition</string>
+    <string name="deli_condition">Condition de délivrance</string>
+    <string name="smr">Service Médical Rendu (SMR)</string>
+    <string name="label_libelle_smr">Libellé du SMR :</string>
+    <string name="label_valeur_smr">Valeur SMR :</string>
+    <string name="label_motif_eval_smr">Motif d\'évaluation :</string>
+    <string name="label_date_avis_smr">Date avis :</string>
+    <string name="label_code_dossier_has">Code dossier HAS :</string>
+    <string name="asmr">Amélioration du service médical rendu (ASMR)</string>
+    <string name="label_libelle_asmr">Libellé du ASMR :</string>
+    <string name="label_valeur_asmr">Valeur de l\'ASMR :</string>
+    <string name="label_motif_eval_asmr">Motif d\'évaluation ASMR :</string>
+    <string name="label_date_avis_asmr">Date avis :</string>
+    <string name="info_importantes">Informations Importantes</string>
+    <string name="date_deb">Date de début :</string>
+    <string name="date_fin">Date fin :</string>
 </resources>
