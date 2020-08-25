@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.cardview.widget.CardView" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/label_info_general"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/label_info_general"
+            android:textSize="@dimen/textTitle"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_status"
+            app:layout_constraintBaseline_toBaselineOf="@+id/status"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_status"
+            app:layout_constraintTop_toBottomOf="@+id/label_info_general"
+            tools:text="Autorisation active" />
+
+
+        <TextView
+            android:id="@+id/label_etat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_etat"
+            app:layout_constraintBaseline_toBaselineOf="@+id/etat"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/etat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_etat"
+            app:layout_constraintTop_toBottomOf="@+id/status"
+            tools:text="Commercialisée" />
+
+
+        <TextView
+            android:id="@+id/label_date_amm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_date_amm"
+            app:layout_constraintBaseline_toBaselineOf="@+id/date_amm"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/date_amm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_date_amm"
+            app:layout_constraintTop_toBottomOf="@+id/etat"
+            tools:text="09/07/2002" />
+
+        <TextView
+            android:id="@+id/label_titulaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_titulaire"
+            app:layout_constraintBaseline_toBaselineOf="@+id/titulaire"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/titulaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_titulaire"
+            app:layout_constraintTop_toBottomOf="@+id/label_date_amm"
+            tools:text="SANOFI" />
+
+
+        <TextView
+            android:id="@+id/label_surv_renforcee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:labelFor="@+id/label_surv_renforcee"
+            android:text="@string/label_surv_renforcee"
+            app:layout_constraintBaseline_toBaselineOf="@+id/surv_renforcee"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/surv_renforcee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_surv_renforcee"
+            app:layout_constraintTop_toBottomOf="@+id/titulaire"
+            tools:text="non" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

@@ -13,7 +13,7 @@ interface GeneriqueDao {
     fun getGeneriqueByCis(codeCis: String): List<Generique>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg generique: Generique): List<Long>
+    fun insert(vararg generique: Generique)
 
     @Delete
     fun delete(generique: Generique)

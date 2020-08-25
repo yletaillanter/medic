@@ -13,7 +13,7 @@ interface SmrDao {
     fun getSmrByCis(codeCis: String): List<SMR>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg smr: SMR): List<Long>
+    fun insert(vararg smr: SMR)
 
     @Delete
     fun delete(smr: SMR)

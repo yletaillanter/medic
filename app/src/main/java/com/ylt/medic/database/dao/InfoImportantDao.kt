@@ -13,7 +13,7 @@ interface InfoImportantDao {
     fun getInfoImportantesByCis(codeCis: String): List<InfoImportantes>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg infoImportantes: InfoImportantes): List<Long>
+    fun insert(vararg infoImportantes: InfoImportantes)
 
     @Delete
     fun delete(infoImportantes: InfoImportantes)

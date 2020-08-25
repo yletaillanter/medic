@@ -38,17 +38,13 @@ class ApiRestModule {
         return OkHttpClient.Builder().addInterceptor(logging).build()
     }
 
-    fun provideGsonConverter(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         // Init de l'instance du retrofit (pour les requêtes REST)
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(gsonConverterFactory)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
     }
 

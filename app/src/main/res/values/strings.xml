@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Médicament</string>
-    <string name="title_search">Search</string>
+    <string name="title_search">Rechercher</string>
     <string name="title_bookmark">Bookmark</string>
     <string name="title_about">About</string>
     <string name="search_title">Rechercher</string>
@@ -22,8 +22,8 @@
     <string name="label_nature_composant">Nature composant :</string>
     <string name="id_grp_gener">Groupe générique :</string>
     <string name="label_lib_grp_gener">Libellé du groupe :</string>
-    <string name="label_typ_gener">Type de générique</string>
-    <string name="label_num_tri">Numéro de tri</string>
+    <string name="label_typ_gener">Type de générique :</string>
+    <string name="label_num_tri">Numéro de tri :</string>
     <string name="composition">Composition</string>
     <string name="deli_condition">Condition de délivrance</string>
     <string name="smr">Service Médical Rendu (SMR)</string>
@@ -40,4 +40,6 @@
     <string name="info_importantes">Informations Importantes</string>
     <string name="date_deb">Date de début :</string>
     <string name="date_fin">Date fin :</string>
+    <string name="notice_d_utilisation">Notice d\'utilisation</string>
+    <string name="generique_title">Générique</string>
 </resources>

@@ -13,7 +13,7 @@ interface CompoDao {
     fun getCompoByCis(codeCis: String): List<Compo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg compo: Compo): List<Long>
+    fun insert(vararg compo: Compo)
 
     @Delete
     fun delete(compo: Compo)

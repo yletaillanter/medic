@@ -13,7 +13,7 @@ interface PresentationDao {
     fun getPresentationByCis(codeCis: String): List<Presentation>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg presentation: Presentation): List<Long>
+    fun insert(vararg presentation: Presentation)
 
     @Delete
     fun delete(presentation: Presentation)

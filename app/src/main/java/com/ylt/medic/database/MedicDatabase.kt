@@ -11,7 +11,7 @@ import com.ylt.medic.database.model.*
 /**
  * Created by yoannlt on 14/06/2017.
  */
-@Database(version = 1, exportSchema = false, entities = [ASMR::class, Compo::class, ConditionPrescription::class, Generique::class, InfoImportantes::class, Medicament::class, Presentation::class, SMR::class])
+@Database(entities = [ASMR::class, Compo::class, ConditionPrescription::class, Generique::class, InfoImportantes::class, Medicament::class, Presentation::class, SMR::class], version = 4, exportSchema = false)
 @TypeConverters(ConverterDate::class)
 abstract class MedicDatabase : RoomDatabase() {
     abstract fun asmrDao(): AsmrDao
@@ -24,18 +24,26 @@ abstract class MedicDatabase : RoomDatabase() {
     abstract fun smrDao(): SmrDao
 
     companion object {
-        private var instance: MedicDatabase? = null
-        fun getInstance(context: Context): MedicDatabase {
-            var instance = instance
-            if (instance == null) {
-                instance = Room.databaseBuilder(context.applicationContext, MedicDatabase::class.java, "medicament-app")
-                        .allowMainThreadQueries()
-                        .fallbackToDestructiveMigration()
-                        .build()
-                this.instance = instance
-            }
-            return instance
-        }
+        @Volatile
+        private var INSTANCE: MedicDatabase? = null
 
+
+        fun getInstance(context: Context): MedicDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    MedicDatabase::class.java,
+                    "medicament-app"
+                ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
+
+                INSTANCE = instance
+                return instance
+            }
+        }
     }
 }

@@ -79,6 +79,61 @@ class SearchActivity : BaseActivity(), ClickListener {
         return true;
     }
 
+    private fun initLayoutElement() {
+        // Toolbar
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        // Recycler view
+        medocSearchRecyclerView = findViewById(R.id.medoc_search_recycler_view)
+        medocSearchRecyclerView.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(applicationContext)
+        medocSearchRecyclerView.layoutManager = layoutManager
+
+        // Recycler view Divider
+        //val dividerItemDecoration = DividerItemDecoration(medocSearchRecyclerView.context, layoutManager.orientation)
+        //medocSearchRecyclerView.addItemDecoration(dividerItemDecoration)
+
+        // Data and adapter
+        data = ArrayList()
+        adapter = AdapterMedicSearch()
+        adapter.replace(data)
+        adapter.setContext(applicationContext)
+        adapter.setClickListener(this)
+        medocSearchRecyclerView.adapter = adapter
+    }
+
+    override fun itemClicked(view: View, position: Int, recycler: String) {
+        // For debug
+        //deleteAll()
+
+        // check if medic already exists
+        // TODO mettre une date d'invalid du cache
+        var id = model.getIdByCis(data[position].codeCis)
+
+        // if medic non trouve en base
+        if (id == 0L ) {
+            Log.d(TAG, "non trouve in DB, insertion")
+            // insert du medicament
+            insertMedicByCis(data[position].codeCis)
+        } else {
+            Log.d(TAG, "trouvé in DB !!! id: $id")
+        }
+
+        /*
+        val intent: Intent = Intent(applicationContext, MedicDetailActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
+         */
+    }
+
+    // Vide TOUTES les tables
+    private fun deleteAll() {
+        model.deleteTableContent()
+    }
+
+
+    // TODO move in modelView
     fun startSearching(query:String) {
         compositeDisposable.add(
             model.searchMedicByName(query).subscribe { response ->
@@ -87,7 +142,6 @@ class SearchActivity : BaseActivity(), ClickListener {
             }
         )
     }
-
     fun getByCip13(cip:String) {
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
@@ -96,33 +150,32 @@ class SearchActivity : BaseActivity(), ClickListener {
             }
         )
     }
-
-    private fun insertMedicByCis(cis: String): Medicament {
-        var resultMedic = Medicament()
-
+    private fun insertMedicByCis(cis: String) {
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                model.insertFullMedic(arrayToArrayList(response)[0])
+                var id = model.insertFullMedic(arrayToArrayList(response)[0])
+                Log.d(TAG, "insert medic with id: $id")
+
+                val intent = Intent(applicationContext, MedicDetailActivity::class.java)
+                intent.putExtra("id", id[0])
+                startActivity(intent)
             }
         )
-
-        return resultMedic
     }
-
     private fun getMedicByCis(cis: String){
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Log.i(TAG, "YOYO ${arrayToArrayList(response)[0].toString()}")
+                Log.i(TAG, "${arrayToArrayList(response)[0].toString()}")
             }
         )
     }
-
     private fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
-        var result: ArrayList<Medicament> = ArrayList<Medicament>()
+        var result: ArrayList<Medicament> = ArrayList()
         medocArray.forEach { medoc -> result.add(medicResponseToMedic(medoc))}
         return result
     }
 
+    // TODO move in modelView
     private fun medicResponseToMedic(medicResponse: MedicamentResponse): Medicament {
         var medicResult = Medicament()
 
@@ -264,65 +317,6 @@ class SearchActivity : BaseActivity(), ClickListener {
         return resultArray
     }
 
-    private fun initLayoutElement() {
-        // Toolbar
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        // Recycler view
-        medocSearchRecyclerView = findViewById(R.id.medoc_search_recycler_view)
-        medocSearchRecyclerView.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(applicationContext)
-        medocSearchRecyclerView.layoutManager = layoutManager
-
-        // Recycler view Divider
-        val dividerItemDecoration = DividerItemDecoration(medocSearchRecyclerView.context, layoutManager.orientation)
-        medocSearchRecyclerView.addItemDecoration(dividerItemDecoration)
-
-        // Data and adapter
-        data = ArrayList()
-        adapter = AdapterMedicSearch()
-        adapter.replace(data)
-        adapter.setContext(applicationContext)
-        adapter.setClickListener(this)
-        medocSearchRecyclerView.adapter = adapter
-    }
-
-    override fun itemClicked(view: View, position: Int, recycler: String) {
-        //deleteAll()
-
-        getMedicByCis(data[position].codeCis)
-
-        // On check si medic déjà en base via cis
-        //var id = model.getIdByCis(data[position].codeCis)
-
-        //Log.d(TAG, "id in database $id")
-
-        // if medic non trouve en base
-        /*
-        if (id == 0L ) {
-            Log.d(TAG, "non trouve in DB")
-            // get du medic full
-            insertMedicByCis(data[position].codeCis)
-            //model.insertFullMedic(medicament)
-        } else {
-            Log.d(TAG, "trouve in DB")
-        }
-
-         */
-
-        /*
-        val intent: Intent = Intent(applicationContext, MedicDetailActivity::class.java)
-        intent.putExtra("code_cis", data[position].codeCis)
-        startActivity(intent)
-         */
-    }
-
-    // Vide TOUTES les tables
-    private fun deleteAll() {
-        model.deleteTableContent()
-    }
-
     /*
     Onclick du menu
     // TODO onclick de la croix supprimer la liste des résultats
@@ -358,8 +352,3 @@ class SearchActivity : BaseActivity(), ClickListener {
 
     }
 }
-
-// db stuff
-
-//db.medicamentLiteDao().insert(response.get(0))
-//message.setText(db.medicamentLiteDao().getAll().size)

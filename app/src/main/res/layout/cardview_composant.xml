@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.cardview.widget.CardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/composition"
+            android:textSize="@dimen/textTitle"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_designation_elem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_designation_elem"
+            app:layout_constraintBaseline_toBaselineOf="@+id/designation_elem"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/designation_elem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_designation_elem"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="comprimée" />
+
+
+        <TextView
+            android:id="@+id/label_code_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_code_substance"
+            app:layout_constraintBaseline_toBaselineOf="@+id/code_substance"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/code_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_code_substance"
+            app:layout_constraintTop_toBottomOf="@+id/designation_elem"
+            tools:text="13112" />
+
+
+        <TextView
+            android:id="@+id/label_deno_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_deno_substance"
+            app:layout_constraintBaseline_toBaselineOf="@+id/deno_substance"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/deno_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_deno_substance"
+            app:layout_constraintTop_toBottomOf="@+id/code_substance"
+            tools:text="toto" />
+
+
+        <TextView
+            android:id="@+id/label_dosage_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_dosage_substance"
+            app:layout_constraintBaseline_toBaselineOf="@+id/dosage_substance"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/dosage_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_dosage_substance"
+            app:layout_constraintTop_toBottomOf="@+id/deno_substance"
+            tools:text="toto" />
+
+
+        <TextView
+            android:id="@+id/label_ref_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_ref_substance"
+            app:layout_constraintBaseline_toBaselineOf="@+id/ref_substance"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/ref_substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_ref_substance"
+            app:layout_constraintTop_toBottomOf="@+id/dosage_substance"
+            tools:text="toto" />
+
+
+        <TextView
+            android:id="@+id/label_nature_composant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_nature_composant"
+            app:layout_constraintBaseline_toBaselineOf="@+id/nature_composant"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/nature_composant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_nature_composant"
+            app:layout_constraintTop_toBottomOf="@+id/ref_substance"
+            tools:text="toto" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

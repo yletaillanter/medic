@@ -13,7 +13,7 @@ interface AsmrDao {
     fun getAsmrByCis(codeCis: String): List<ASMR>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg asmr: ASMR): List<Long>
+    fun insert(vararg asmr: ASMR)
 
     @Delete
     fun delete(asmr: ASMR)

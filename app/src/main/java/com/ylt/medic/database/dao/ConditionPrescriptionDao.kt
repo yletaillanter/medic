@@ -13,7 +13,7 @@ interface ConditionPrescriptionDao {
     fun getConditionPrescriptionByCis(codeCis: String): List<ConditionPrescription>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg conditionPrescritption: ConditionPrescription): List<Long>
+    fun insert(vararg conditionPrescritption: ConditionPrescription)
 
     @Delete
     fun delete(conditionPrescritption: ConditionPrescription)

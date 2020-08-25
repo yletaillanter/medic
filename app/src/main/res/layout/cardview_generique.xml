@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.cardview.widget.CardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/label_generique"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textTitle"
+            android:textStyle="bold"
+            android:text="@string/generique_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/id_grp_gener"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/id_grp_gener"
+            app:layout_constraintBaseline_toBaselineOf="@+id/grp_gener"
+            app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/grp_gener"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                tools:text="272"
+                app:layout_constraintStart_toEndOf="@+id/id_grp_gener"
+                app:layout_constraintTop_toBottomOf="@+id/label_generique"/>
+
+
+        <TextView
+            android:id="@+id/label_lib_grp_gener"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_lib_grp_gener"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lib_grp_gener"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lib_grp_gener"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_lib_grp_gener"
+            app:layout_constraintTop_toBottomOf="@+id/grp_gener"
+            tools:text="ALPRAZOLAM - XANAX comprimé sécable" />
+
+
+        <TextView
+            android:id="@+id/label_typ_gener"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_typ_gener"
+            app:layout_constraintBaseline_toBaselineOf="@+id/typ_gener"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/typ_gener"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_typ_gener"
+            app:layout_constraintTop_toBottomOf="@+id/lib_grp_gener"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/label_num_tri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/label_num_tri"
+            app:layout_constraintBaseline_toBaselineOf="@+id/num_tri"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/num_tri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/label_num_tri"
+            app:layout_constraintTop_toBottomOf="@+id/typ_gener"
+            tools:text="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

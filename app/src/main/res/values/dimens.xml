@@ -17,5 +17,6 @@
     <dimen name="textTitle">20sp</dimen>
     <dimen name="textSubtitle">16sp</dimen>
     <dimen name="textHint">12sp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
 
 </resources>
