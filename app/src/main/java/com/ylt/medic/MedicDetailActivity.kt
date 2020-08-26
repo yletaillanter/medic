@@ -101,9 +101,7 @@ class MedicDetailActivity : AppCompatActivity() {
 
         if (currentMedicament.infos.size > 0) {
             binding.apply {
-                dateDebInfo.text = currentMedicament.infos[0].dateDeb
-                dateFinInfo.text = currentMedicament.infos[0].dateFin
-                idInfoImportantes.text = HtmlCompat.fromHtml(currentMedicament.infos[0].textAndLink, 0)
+                infoView.setMedicament(currentMedicament)
             }
         } else {
             binding.cardViewInfoImportantes.visibility = View.GONE

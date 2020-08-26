@@ -32,8 +32,7 @@ class NoticeActivity : AppCompatActivity() {
 
         noticeTextView = findViewById(R.id.notice)
 
-        //val codeCis = intent.getStringExtra(EXTRA_MESSAGE)
-        val codeCis = "60474889"
+        val codeCis = intent.getStringExtra(EXTRA_MESSAGE)
 
         if (checkNetworkConnection()) {
             lifecycleScope.launch {

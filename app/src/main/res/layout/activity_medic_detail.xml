@@ -264,8 +264,11 @@
                 app:cardElevation="20dp"
                 app:cardBackgroundColor="#fafffa">
 
-
-
+                <com.ylt.medic.views.InfoGeneralCardView
+                    android:id="@+id/info_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="@dimen/card_corner_radius"/>
             </androidx.cardview.widget.CardView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

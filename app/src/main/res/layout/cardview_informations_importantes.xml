@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -44,19 +45,38 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/date_fin" />
+            android:text="@string/date_fin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dat_deb"/>
+
         <TextView
             android:id="@+id/date_fin_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" />
-        <!--
-               <TextView
-                   android:id="@+id/id_info_importantes"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="8dp"
-                   android:layout_marginTop="8dp" /> -->
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/date_fin"
+            app:layout_constraintTop_toBottomOf="@+id/date_deb_info"
+            tools:text="22/08/2030"/>
+
+        <TextView
+           android:id="@+id/libelle_info"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="8dp"
+           android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_fin"
+            android:text="Information et/ou lien(s) :"/>
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/libelle_info"
+            tools:text="@tools:sample/lorem/random"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>
