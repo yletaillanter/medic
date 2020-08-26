@@ -8,11 +8,9 @@ import android.view.View
 import com.ylt.medic.database.model.Medicament
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ylt.medic.databinding.ActivityMedicDetailBinding
-import com.ylt.medic.views.InfoGeneralCardView
 
 
 class MedicDetailActivity : AppCompatActivity() {
