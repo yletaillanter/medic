@@ -24,7 +24,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
     // Adresse du serveur
     //private val BASE_URL = "http://10.0.2.2:3000/"
-    private val BASE_URL = "http://192.168.2.181:3000/"
+    //private val BASE_URL = "http://192.168.2.181:3000/"
+    private val BASE_URL = "https://my-json-server.typicode.com/yletaillanter/fake-medic-backend"
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
