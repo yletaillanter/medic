@@ -5,7 +5,6 @@ import androidx.room.*
 /**
  * Created by yoannlt on 13/06/2017.
  */
-//indices = arrayOf(Index(value = ["code_cis", "denomination"], unique = true)))
 @Entity(tableName = "medicament")
 data class Medicament (
 

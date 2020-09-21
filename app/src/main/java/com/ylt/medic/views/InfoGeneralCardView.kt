@@ -20,6 +20,7 @@ class InfoGeneralCardView @JvmOverloads constructor(
     private var dateAmm: TextView? = null
     private var titulaire: TextView? = null
     private var survRenforcee: TextView? = null
+
     fun setMedicament(medicament: Medicament?) {
         this.medicament = medicament
         init()

@@ -12,16 +12,6 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/composition"
-            android:textSize="@dimen/textTitle"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/label_designation_elem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,9 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/label_designation_elem"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="comprimée" />
 
 
