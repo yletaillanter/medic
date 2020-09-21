@@ -106,29 +106,27 @@ class SearchActivity : BaseActivity(), ClickListener {
     }
 
     override fun itemClicked(view: View, position: Int, recycler: String) {
-        // For debug
-        deleteAll()
-
-        Log.d("YOYO", "medic: {$data[position]}")
+        // TODO : remove, for debug only
+        //deleteAll()
 
         // check if medic already exists
-        // TODO mettre une date d'invalid du cache
+        // TODO invalid du cache
         var id = model.getIdByCis(data[position].codeCis)
 
-        // if medic non trouve en base
+        // if medic not in cache
         if (id == 0L ) {
-            Log.d(TAG, "non trouve in DB, insertion")
+            Log.d(TAG, "caching medic in DB")
             // insert du medicament
             insertMedicByCis(data[position].codeCis)
         } else {
-            Log.d(TAG, "trouvé in DB! id: $id")
+            Log.d(TAG, "getting medic from cache! id: $id")
             val intent: Intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
         }
     }
 
-    // Vide TOUTES les tables
+    // empty database
     private fun deleteAll() {
         model.deleteTableContent()
     }
@@ -153,8 +151,6 @@ class SearchActivity : BaseActivity(), ClickListener {
     private fun insertMedicByCis(cis: String) {
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Log.d(TAG, "GRUGRU insert ${arrayToArrayList(response)[0]}")
-
                 var id = model.insertFullMedic(arrayToArrayList(response)[0])
 
                 //val intent = Intent(applicationContext, MedicDetailActivity::class.java)
@@ -340,12 +336,12 @@ class SearchActivity : BaseActivity(), ClickListener {
 
         val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result.getContents() == null) {
-            Toast.makeText(this, "Médicament non trouvé, utilisez la rechercher par nom.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
         } else {
             if (result.getContents().length == 13)
                 getByCip13(result.getContents())
             else
-                Toast.makeText(this, "Médicament non trouvé, utilisez la rechercher par nom.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
         }
     }
 }
