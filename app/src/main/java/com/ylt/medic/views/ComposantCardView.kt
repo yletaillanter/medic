@@ -41,11 +41,11 @@ class ComposantCardView @JvmOverloads constructor(
         natureComposant = findViewById(R.id.nature_composant)
 
         // Set text to views elements
-        designationElem!!.setText(composant!!.designationElemPh)
-        codeSubstance!!.setText(composant!!.codeSubstance)
-        denoSubstance!!.setText(composant!!.denoSubstance)
-        dosageSubstance!!.setText(composant!!.dosageSubstance)
-        refSubstance!!.setText(composant!!.refSubstance)
-        natureComposant!!.setText(composant!!.natureComposant)
+        designationElem!!.setText(composant?.designationElemPh)
+        codeSubstance!!.setText(composant?.codeSubstance)
+        denoSubstance!!.setText(composant?.denoSubstance)
+        dosageSubstance!!.setText(composant?.dosageSubstance)
+        refSubstance!!.setText(composant?.refSubstance)
+        natureComposant!!.setText(composant?.natureComposant)
     }
 }

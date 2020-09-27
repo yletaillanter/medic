@@ -1,40 +1,49 @@
 package com.ylt.medic
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.AlarmClock
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ylt.medic.Constants.Companion.ASMR
+import com.ylt.medic.Constants.Companion.BOITES
+import com.ylt.medic.Constants.Companion.COMPOSITION
+import com.ylt.medic.Constants.Companion.CONDI_PRESCRIPTION
+import com.ylt.medic.Constants.Companion.GENERIQUES
+import com.ylt.medic.Constants.Companion.INFO_GENERALES
+import com.ylt.medic.Constants.Companion.INFO_IMPORTANTES
+import com.ylt.medic.Constants.Companion.SMR
 import com.ylt.medic.database.model.Medicament
-import com.ylt.medic.databinding.ActivityMedicDetailBinding
 import kotlinx.android.synthetic.main.detail_viewpager.*
 
 class DetailViewPagerActivity : AppCompatActivity() {
 
     val categories = listOf(
-        "Informations générales",
-        "Boites",
-        "Composition",
-        "Générique",
-        "Smr",
-        "Asmr",
-        "Informations importantes",
-        "Conditions de prescription"
+        INFO_GENERALES,
+        BOITES,
+        GENERIQUES,
+        COMPOSITION,
+        CONDI_PRESCRIPTION,
+        INFO_IMPORTANTES,
+        SMR,
+        ASMR
     )
 
     private val TAG = "DetailViewPagerActivity"
-    private lateinit var binding: ActivityMedicDetailBinding
     lateinit var currentMedicament: Medicament
     lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreateViewpager")
         super.onCreate(savedInstanceState)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         setContentView(R.layout.detail_viewpager)
 
         viewPager2.orientation = ViewPager2.ORIENTATION_VERTICAL

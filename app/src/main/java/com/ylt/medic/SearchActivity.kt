@@ -211,6 +211,7 @@ class SearchActivity : BaseActivity(), ClickListener {
             resultPresentation.libellePresentation = prezResponse.libellePresentation
             resultPresentation.statutAdminPres = prezResponse.statutAdminPres
             resultPresentation.etatCommer = prezResponse.etatCommer
+            resultPresentation.dateDeclaCommer = prezResponse.dateDeclaCommer
             resultPresentation.agrementCollec = prezResponse.agrementCollec
             resultPresentation.txRemboursement = prezResponse.txRemboursement
             resultPresentation.indicDroitRemb = prezResponse.indicDroitRemb

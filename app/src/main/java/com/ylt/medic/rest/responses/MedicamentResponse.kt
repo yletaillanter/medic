@@ -15,7 +15,7 @@ data class MedicamentResponse (
     @SerializedName("num_autor_eu") var numAutorEu:String = "",
     @SerializedName("status_bdm") var statusBdm: String = "",
     @SerializedName("statut_admin_amm") var statutAdminAmm: String = "",
-    @SerializedName("surv_renforce")  var survRenforcee: String = "",
+    @SerializedName("surv_renforcée")  var survRenforcee: String = "",
     @SerializedName("titulaire") var titulaire: String = "",
     @SerializedName("type_proced_amm") var typeProcedAmm: String = "",
     @SerializedName("voie_administration") var voieAdministration: String = "",

@@ -40,10 +40,10 @@ class InfoGeneralCardView @JvmOverloads constructor(
         survRenforcee = findViewById(R.id.surv_renforcee)
 
         // Set text to views elements
-        status!!.setText(medicament!!.statusBdm)
-        etat!!.setText(medicament!!.etatCommer)
-        dateAmm!!.setText(medicament!!.dateAmm)
-        titulaire!!.setText(medicament!!.titulaire)
-        survRenforcee!!.setText(medicament!!.survRenforcee)
+        status!!.setText(medicament?.statusBdm)
+        etat!!.setText(medicament?.etatCommer)
+        dateAmm!!.setText(medicament?.dateAmm)
+        titulaire!!.setText(medicament?.titulaire)
+        survRenforcee!!.setText(medicament?.survRenforcee)
     }
 }

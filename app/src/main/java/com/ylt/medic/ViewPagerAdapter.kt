@@ -1,7 +1,6 @@
 package com.ylt.medic
 
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.ylt.medic.database.model.Medicament
 

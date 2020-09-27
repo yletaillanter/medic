@@ -37,9 +37,9 @@ class GeneriqueCardView @JvmOverloads constructor(
         numTri = findViewById(R.id.num_tri)
 
         // Set text to views elements
-        grpGener!!.setText(generique!!.idGrpGener)
-        libGrpGener!!.setText(generique!!.libelleGrpGener)
-        typGener!!.setText(generique!!.typeGener)
-        numTri!!.setText(generique!!.numeroTri)
+        grpGener!!.setText(generique?.idGrpGener)
+        libGrpGener!!.setText(generique?.libelleGrpGener)
+        typGener!!.setText(generique?.typeGener)
+        numTri!!.setText(generique?.numeroTri)
     }
 }

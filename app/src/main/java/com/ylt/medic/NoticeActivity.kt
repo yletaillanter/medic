@@ -15,9 +15,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 
 
 class NoticeActivity : AppCompatActivity() {
@@ -38,9 +35,16 @@ class NoticeActivity : AppCompatActivity() {
             lifecycleScope.launch {
 
                 val result = httpGet("http://base-donnees-publique.medicaments.gouv.fr/affichageDoc.php?specid=$codeCis&typedoc=N")
-                //tvResult.setText(result)
-                Log.i(TAG,"Parse result:" + result!!.getElementById("contentDocument"))
-                noticeTextView.setText(HtmlCompat.fromHtml(result!!.getElementById("contentDocument").toString(), 0));
+                Log.d(TAG,"Parse result:" + result.getElementById("contentDocument"))
+
+                try {
+                    noticeTextView.setText(HtmlCompat.fromHtml(result.getElementById("contentDocument").toString(), 0));
+                } catch(npe: NullPointerException) {
+                    if (HtmlCompat.fromHtml(result.getElementById("contentPrincipal").toString(), 0).contains("Le document demandé n'est pas disponible pour ce médicament")) {
+                        noticeTextView.setText("Le document demandé n'est pas disponible pour ce médicament")
+                        Log.d(TAG, "notice non dispo")
+                    }
+                }
             }
         } else {
             Log.i("TAG", "no connection")
