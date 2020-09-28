@@ -19,7 +19,6 @@ import com.google.zxing.integration.android.IntentResult
 import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.*
-import com.ylt.medic.rest.responses.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlin.collections.ArrayList
 
@@ -68,16 +67,13 @@ class SearchActivity : BaseActivity(), ClickListener {
             }
 
             override fun onQueryTextChange(s: String): Boolean {
-                if(s.length == 1 || s.length == 2) {
-                    adapter.clear();
-                }
-                else if (s.length > 2) {
-                    startSearching(s);
+                when (s.length) {
+                    in 0..2 -> adapter.clear();
+                    else -> startSearching(s)
                 }
                 return false
             }
         })
-
         return true;
     }
 
@@ -91,10 +87,6 @@ class SearchActivity : BaseActivity(), ClickListener {
         medocSearchRecyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(applicationContext)
         medocSearchRecyclerView.layoutManager = layoutManager
-
-        // Recycler view Divider
-        //val dividerItemDecoration = DividerItemDecoration(medocSearchRecyclerView.context, layoutManager.orientation)
-        //medocSearchRecyclerView.addItemDecoration(dividerItemDecoration)
 
         // Data and adapter
         data = ArrayList()
@@ -131,11 +123,10 @@ class SearchActivity : BaseActivity(), ClickListener {
         model.deleteTableContent()
     }
 
-    // TODO move in modelView
     fun startSearching(query:String) {
         compositeDisposable.add(
             model.searchMedicByName(query).subscribe { response ->
-                this.data = arrayToArrayList(response)
+                this.data = model.arrayToArrayList(response)
                 adapter.replace(this.data)
             }
         )
@@ -143,7 +134,7 @@ class SearchActivity : BaseActivity(), ClickListener {
     fun getByCip13(cip:String) {
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
-                this.data = arrayToArrayList(response)
+                this.data = model.arrayToArrayList(response)
                 adapter.replace(this.data)
             }
         )
@@ -151,7 +142,7 @@ class SearchActivity : BaseActivity(), ClickListener {
     private fun insertMedicByCis(cis: String) {
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                var id = model.insertFullMedic(arrayToArrayList(response)[0])
+                var id = model.insertFullMedic(model.arrayToArrayList(response)[0])
 
                 //val intent = Intent(applicationContext, MedicDetailActivity::class.java)
                 val intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
@@ -163,164 +154,11 @@ class SearchActivity : BaseActivity(), ClickListener {
     private fun getMedicByCis(cis: String){
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Log.i(TAG, "${arrayToArrayList(response)[0].toString()}")
+                Log.i(TAG, "${model.arrayToArrayList(response)[0].toString()}")
             }
         )
     }
-    private fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
-        var result: ArrayList<Medicament> = ArrayList()
-        medocArray.forEach { medoc -> result.add(medicResponseToMedic(medoc))}
-        return result
-    }
 
-    // TODO move in modelView
-    private fun medicResponseToMedic(medicResponse: MedicamentResponse): Medicament {
-        var medicResult = Medicament()
-
-        medicResult.codeCis = medicResponse.codeCis
-        medicResult.dateAmm = medicResponse.dateAmm
-        medicResult.denomination = medicResponse.denomination
-        medicResult.etatCommer = medicResponse.etatCommer
-        medicResult.formePharma = medicResponse.formePharma
-        medicResult.numAutorEu = medicResponse.numAutorEu
-        medicResult.statusBdm = medicResponse.statusBdm
-        medicResult.statutAdminAmm = medicResponse.statutAdminAmm
-        medicResult.survRenforcee = medicResponse.survRenforcee
-        medicResult.titulaire = medicResponse.titulaire
-        medicResult.typeProcedAmm = medicResponse.typeProcedAmm
-        medicResult.voieAdministration = medicResponse.voieAdministration
-        medicResult.ASMRs = getArrayASMR(medicResponse.ASMRs)
-        medicResult.compos = getArrayCompo(medicResponse.compos)
-        medicResult.conditionPrescritions = getArrayConditionPrecription(medicResponse.conditionPrescritions)
-        medicResult.generiques = getArrayGenerique(medicResponse.generiques)
-        medicResult.infos = getArrayInfoImportantes(medicResponse.infos)
-        medicResult.presentations = getArrayPresentation(medicResponse.presentations)
-        medicResult.SMRs = getArraySMR(medicResponse.SMRs)
-
-        return medicResult
-    }
-
-    private fun getArrayPresentation(presentations: List<PresentationResponse>): ArrayList<Presentation> {
-        var resultArray = ArrayList<Presentation>()
-        var resultPresentation = Presentation()
-
-        presentations.forEach{ prezResponse ->
-            resultPresentation.codeCis = prezResponse.codeCis
-            resultPresentation.codeCip13 = prezResponse.codeCip13
-            resultPresentation.codeCip7 = prezResponse.codeCip7
-            resultPresentation.libellePresentation = prezResponse.libellePresentation
-            resultPresentation.statutAdminPres = prezResponse.statutAdminPres
-            resultPresentation.etatCommer = prezResponse.etatCommer
-            resultPresentation.dateDeclaCommer = prezResponse.dateDeclaCommer
-            resultPresentation.agrementCollec = prezResponse.agrementCollec
-            resultPresentation.txRemboursement = prezResponse.txRemboursement
-            resultPresentation.indicDroitRemb = prezResponse.indicDroitRemb
-            resultPresentation.prixMedicEuro = prezResponse.prixMedicEuro
-            resultArray.add(resultPresentation)
-        }
-        return resultArray
-    }
-
-    private fun getArrayASMR(asmrs: List<AsmrResponse>): ArrayList<ASMR> {
-        var resultArray = ArrayList<ASMR>()
-        var resultAsmr  = ASMR()
-
-        asmrs.forEach { asmrResponse ->
-            resultAsmr.codeCis = asmrResponse.codeCis
-            resultAsmr.codeDossierHas = asmrResponse.codeDossierHas
-            resultAsmr.motifEval = asmrResponse.motifEval
-            resultAsmr.dateAvisCommTransp = asmrResponse.dateAvisCommTransp
-            resultAsmr.valeurAsmr = asmrResponse.valeurAsmr
-            resultAsmr.libelleAsmr = asmrResponse.libelleAsmr
-            resultArray.add(resultAsmr)
-        }
-        return resultArray
-    }
-
-    private fun getArrayCompo(compos: List<CompoResponse>): ArrayList<Compo> {
-        var resultArray = ArrayList<Compo>()
-        var resultCompo  = Compo()
-
-        compos.forEach { compoResponse ->
-            resultCompo.codeCis = compoResponse.codeCis
-            resultCompo.designationElemPh = compoResponse.designationElemPh
-            resultCompo.codeSubstance = compoResponse.codeSubstance
-            resultCompo.denoSubstance = compoResponse.denoSubstance
-            resultCompo.dosageSubstance = compoResponse.dosageSubstance
-            resultCompo.refSubstance = compoResponse.refSubstance
-            resultCompo.natureComposant = compoResponse.natureComposant
-            resultCompo.numLiaisonSaFt = compoResponse.numLiaisonSaFt
-            resultArray.add(resultCompo)
-        }
-
-        return resultArray
-    }
-
-    private fun getArrayConditionPrecription(condiPrescri: List<ConditionPrescriptionResponse>): ArrayList<ConditionPrescription> {
-        var resultArray = ArrayList<ConditionPrescription>()
-        var resultConditionPrescription  = ConditionPrescription()
-
-        condiPrescri.forEach { condiPresResponse ->
-            resultConditionPrescription.codeCis = condiPresResponse.codeCis
-            resultConditionPrescription.condition = condiPresResponse.condition
-            resultArray.add(resultConditionPrescription)
-        }
-
-        return resultArray
-    }
-
-    private fun getArrayGenerique(generiquesResponse: List<GeneriqueResponse>): ArrayList<Generique> {
-        var resultArray = ArrayList<Generique>()
-        var resultGenerique  = Generique()
-
-        generiquesResponse.forEach { geneResponse ->
-            resultGenerique.codeCis = geneResponse.codeCis
-            resultGenerique.idGrpGener = geneResponse.idGrpGener
-            resultGenerique.libelleGrpGener = geneResponse.libelleGrpGener
-            resultGenerique.typeGener = geneResponse.typeGener
-            resultGenerique.numeroTri = geneResponse.numeroTri
-            resultArray.add(resultGenerique)
-        }
-
-        return resultArray
-    }
-
-    private fun getArrayInfoImportantes(infos: List<InfoImportantesResponse>): ArrayList<InfoImportantes> {
-        var resultArray = ArrayList<InfoImportantes>()
-        var resultInfo  = InfoImportantes()
-
-        infos.forEach { info ->
-            resultInfo.codeCis = info.codeCis
-            resultInfo.dateDeb = info.dateDeb
-            resultInfo.dateFin = info.dateFin
-            resultInfo.textAndLink = info.textAndLink
-            resultArray.add(resultInfo)
-        }
-
-        return resultArray
-    }
-
-    private fun getArraySMR(smrs: List<SmrResponse>): ArrayList<SMR> {
-        var resultArray = ArrayList<SMR>()
-        var resultSMR  = SMR()
-
-        smrs.forEach { smr ->
-            resultSMR.codeCis = smr.codeCis
-            resultSMR.codeDossierHas = smr.codeDossierHas
-            resultSMR.motifEval = smr.motifEval
-            resultSMR.dateAvisCommTransp = smr.dateAvisCommTransp
-            resultSMR.valeurSmr = smr.valeurSmr
-            resultSMR.libelleSmr = smr.libelleSmr
-            resultArray.add(resultSMR)
-        }
-
-        return resultArray
-    }
-
-    /*
-    Onclick du menu
-    // TODO onclick de la croix supprimer la liste des résultats
-     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
@@ -337,12 +175,16 @@ class SearchActivity : BaseActivity(), ClickListener {
 
         val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result.getContents() == null) {
-            Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
+            medicNotFound()
         } else {
             if (result.getContents().length == 13)
                 getByCip13(result.getContents())
             else
-                Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
+                medicNotFound()
         }
+    }
+
+    private fun medicNotFound() {
+        Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
     }
 }

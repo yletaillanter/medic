@@ -52,7 +52,7 @@ class BoiteCardView @JvmOverloads constructor(
         statut!!.setText(presentation?.statutAdminPres)
         dateDeclaCommer!!.setText(presentation?.dateDeclaCommer)
         rembRate!!.setText(presentation?.txRemboursement)
-        price!!.setText(presentation?.prixMedicEuro)
+        price!!.setText("${presentation?.prixMedicEuro}€")
         indicDroitRemb!!.setText(presentation?.indicDroitRemb)
     }
 }
