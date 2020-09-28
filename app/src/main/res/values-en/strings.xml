@@ -1,0 +1,21 @@
+<resources>
+    <string name="title_search">Search</string>
+    <string name="title_bookmark">Bookmark</string>
+    <string name="title_about">About</string>
+    <string name="search_hint">Type medicament name</string>
+    <string name="label_status">Status:</string>
+    <string name="label_titulaire">Owner:</string>
+    <string name="label_info_general">Information</string>
+    <string name="label_compo">Composition</string>
+    <string name="label_date_avis_smr">Date:</string>
+    <string name="label_code_dossier_has">HAS code:</string>
+    <string name="label_libelle_asmr">ASMR label:</string>
+    <string name="label_valeur_asmr">ASMR value:</string>
+    <string name="label_motif_eval_asmr">Motif d\'évaluation ASMR :</string>
+    <string name="label_date_avis_asmr">Date:</string>
+    <string name="info_importantes">Information</string>
+    <string name="date_deb">Begin date:</string>
+    <string name="date_fin">End Date:</string>
+    <string name="title_activity_detail_view_pager">DetailViewPager</string>
+    <string name="label_date_decla_commer">Date commer. :</string>
+</resources>

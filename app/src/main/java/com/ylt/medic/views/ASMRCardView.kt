@@ -39,10 +39,10 @@ class ASMRCardView @JvmOverloads constructor(
         codeDossierHas = findViewById(R.id.code_dossier_has)
 
         // Set text to views elements
-        libelleAsmr!!.setText(asmr!!.libelleAsmr)
-        valeurAsmr!!.setText(asmr!!.valeurAsmr)
-        motifEvalAsmr!!.setText(asmr!!.motifEval)
-        dateAvisAsmr!!.setText(asmr!!.dateAvisCommTransp)
-        codeDossierHas!!.setText(asmr!!.codeDossierHas)
+        libelleAsmr!!.setText(asmr?.libelleAsmr)
+        valeurAsmr!!.setText(asmr?.valeurAsmr)
+        motifEvalAsmr!!.setText(asmr?.motifEval)
+        dateAvisAsmr!!.setText(asmr?.dateAvisCommTransp)
+        codeDossierHas!!.setText(asmr?.codeDossierHas)
     }
 }

@@ -12,24 +12,13 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/asmr"
-            android:textSize="@dimen/textTitle"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/label_libelle_asmr"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -38,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:text="toto" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="lib ASMR" />
 
         <TextView
             android:id="@+id/textView5"
@@ -59,7 +48,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/libelle_asmr"
-            tools:text="toto" />
+            tools:text="ASMR" />
 
 
         <TextView
@@ -120,7 +109,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/date_avis_asmr"
-            tools:text="toto"/>
+            tools:text="XXFG56"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

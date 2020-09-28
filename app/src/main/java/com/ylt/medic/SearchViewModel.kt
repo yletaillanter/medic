@@ -23,9 +23,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     val TAG = "SearchViewModel.class"
 
     // Adresse du serveur
-    //private val BASE_URL = "http://10.0.2.2:3000/"
-    //private val BASE_URL = "http://192.168.2.181:3000/"
-    private val BASE_URL = "https://my-json-server.typicode.com/yletaillanter/fake-medic-backend"
+    private val BASE_URL = "http://10.0.2.2:3000/"
+    //private val BASE_URL = "http://192.168.1.10:3000/"
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
@@ -55,6 +54,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
     /* DATABASE */
     internal fun insertFullMedic(medic: Medicament): List<Long> {
+        Log.d(TAG, "insert: $medic")
+
         // On enregistre tous les elements lies au medicament
         medic.ASMRs.forEach{ asmr ->
             Log.d(TAG, "inserting $asmr")

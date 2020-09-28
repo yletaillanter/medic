@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.*
@@ -36,7 +38,7 @@ class SearchActivity : BaseActivity(), ClickListener {
 
     var compositeDisposable = CompositeDisposable()
 
-    private val TAG: String = "SearchActivity.kt"
+    private val TAG: String = "SearchActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,34 +106,30 @@ class SearchActivity : BaseActivity(), ClickListener {
     }
 
     override fun itemClicked(view: View, position: Int, recycler: String) {
-        // For debug
+        // TODO : remove, for debug only
         //deleteAll()
 
         // check if medic already exists
-        // TODO mettre une date d'invalid du cache
+        // TODO invalid du cache
         var id = model.getIdByCis(data[position].codeCis)
 
-        // if medic non trouve en base
+        // if medic not in cache
         if (id == 0L ) {
-            Log.d(TAG, "non trouve in DB, insertion")
+            Log.d(TAG, "caching medic in DB")
             // insert du medicament
             insertMedicByCis(data[position].codeCis)
         } else {
-            Log.d(TAG, "trouvé in DB !!! id: $id")
+            Log.d(TAG, "getting medic from cache! id: $id")
+            val intent: Intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
         }
-
-        /*
-        val intent: Intent = Intent(applicationContext, MedicDetailActivity::class.java)
-        intent.putExtra("id", id)
-        startActivity(intent)
-         */
     }
 
-    // Vide TOUTES les tables
+    // empty database
     private fun deleteAll() {
         model.deleteTableContent()
     }
-
 
     // TODO move in modelView
     fun startSearching(query:String) {
@@ -154,9 +152,9 @@ class SearchActivity : BaseActivity(), ClickListener {
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
                 var id = model.insertFullMedic(arrayToArrayList(response)[0])
-                Log.d(TAG, "insert medic with id: $id")
 
-                val intent = Intent(applicationContext, MedicDetailActivity::class.java)
+                //val intent = Intent(applicationContext, MedicDetailActivity::class.java)
+                val intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
                 intent.putExtra("id", id[0])
                 startActivity(intent)
             }
@@ -213,9 +211,11 @@ class SearchActivity : BaseActivity(), ClickListener {
             resultPresentation.libellePresentation = prezResponse.libellePresentation
             resultPresentation.statutAdminPres = prezResponse.statutAdminPres
             resultPresentation.etatCommer = prezResponse.etatCommer
+            resultPresentation.dateDeclaCommer = prezResponse.dateDeclaCommer
             resultPresentation.agrementCollec = prezResponse.agrementCollec
             resultPresentation.txRemboursement = prezResponse.txRemboursement
             resultPresentation.indicDroitRemb = prezResponse.indicDroitRemb
+            resultPresentation.prixMedicEuro = prezResponse.prixMedicEuro
             resultArray.add(resultPresentation)
         }
         return resultArray
@@ -322,33 +322,27 @@ class SearchActivity : BaseActivity(), ClickListener {
     // TODO onclick de la croix supprimer la liste des résultats
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*
+
         when (item.itemId) {
             R.id.barcode -> {
                 IntentIntegrator(this).initiateScan(); // `this` is the current Activity
             }
         }
 
-         */
         return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        /*
-        val result:IntentResult  = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result.getContents() == null) {
-            Toast.makeText(this, "Médicament non trouvé, utilisez la rechercher par nom.", Toast.LENGTH_LONG).show();
-        } else {
 
-            if (result.getContents().length == 7)
-                getByCip7(result.getContents())
-            else if (result.getContents().length == 13)
+        val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result.getContents() == null) {
+            Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
+        } else {
+            if (result.getContents().length == 13)
                 getByCip13(result.getContents())
             else
-                Toast.makeText(this, "Médicament non trouvé, utilisez la rechercher par nom.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Not found", Toast.LENGTH_LONG).show();
         }
-         */
-
     }
 }

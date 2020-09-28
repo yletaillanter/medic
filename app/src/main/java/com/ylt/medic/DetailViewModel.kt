@@ -1,6 +1,7 @@
 package com.ylt.medic
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.ylt.medic.database.MedicDatabase
 import com.ylt.medic.database.model.Medicament
@@ -11,6 +12,8 @@ import com.ylt.medic.database.model.Medicament
  */
 class DetailViewModel(application:Application) : AndroidViewModel(application) {
     internal fun getByCis(id: Long): Medicament {
+        Log.d("ViewModel", "medic id: $id")
+
         var resultMedic: Medicament =  MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicById(id)
 
         resultMedic.ASMRs = MedicDatabase.getInstance(getApplication()).asmrDao().getAsmrByCis(resultMedic.codeCis)

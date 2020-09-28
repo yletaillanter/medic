@@ -12,17 +12,6 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/label_info_general"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/label_info_general"
-            android:textSize="@dimen/textTitle"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/label_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,10 +25,9 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@+id/label_status"
-            app:layout_constraintTop_toBottomOf="@+id/label_info_general"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Autorisation active" />
 
 

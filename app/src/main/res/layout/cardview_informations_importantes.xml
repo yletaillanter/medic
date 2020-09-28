@@ -12,23 +12,13 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/infoImportante"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/textTitle"
-            android:textStyle="bold"
-            android:text="@string/info_importantes"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
             android:id="@+id/dat_deb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/date_deb"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/infoImportante"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/date_deb_info"
@@ -36,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@+id/dat_deb"
-            app:layout_constraintTop_toBottomOf="@+id/infoImportante"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="22/08/1987" />
 
         <TextView

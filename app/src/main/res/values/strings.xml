@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Médicament</string>
     <string name="title_search">Rechercher</string>
-    <string name="title_bookmark">Bookmark</string>
-    <string name="title_about">About</string>
+    <string name="title_bookmark">Sauvegarder</string>
+    <string name="title_about">À propos</string>
     <string name="search_title">Rechercher</string>
     <string name="search_hint">Entrer un nom de médicament</string>
     <string name="label_forme_pharma">Forme :</string>
     <string name="label_voie_admin">Voie d\'administration :</string>
-    <string name="label_status">Status :</string>
+    <string name="label_status">Statut :</string>
     <string name="label_etat">Etat commercialisation :</string>
     <string name="label_date_amm">Date autorisation mise sur le marché :</string>
     <string name="label_titulaire">Titulaire :</string>
@@ -42,4 +42,6 @@
     <string name="date_fin">Date fin :</string>
     <string name="notice_d_utilisation">Notice d\'utilisation</string>
     <string name="generique_title">Générique</string>
+    <string name="title_activity_detail_view_pager">DetailViewPager</string>
+    <string name="label_date_decla_commer">Date commer. :</string>
 </resources>

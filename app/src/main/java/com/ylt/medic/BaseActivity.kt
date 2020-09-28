@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.facebook.stetho.Stetho
+//import com.facebook.stetho.Stetho
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -16,7 +16,7 @@ abstract class BaseActivity : AppCompatActivity(), BottomNavigationView.OnNaviga
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this);
 
         setContentView(contentViewId)
 

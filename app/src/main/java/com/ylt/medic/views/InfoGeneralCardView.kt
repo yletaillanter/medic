@@ -20,6 +20,7 @@ class InfoGeneralCardView @JvmOverloads constructor(
     private var dateAmm: TextView? = null
     private var titulaire: TextView? = null
     private var survRenforcee: TextView? = null
+
     fun setMedicament(medicament: Medicament?) {
         this.medicament = medicament
         init()
@@ -39,10 +40,10 @@ class InfoGeneralCardView @JvmOverloads constructor(
         survRenforcee = findViewById(R.id.surv_renforcee)
 
         // Set text to views elements
-        status!!.setText(medicament!!.statusBdm)
-        etat!!.setText(medicament!!.etatCommer)
-        dateAmm!!.setText(medicament!!.dateAmm)
-        titulaire!!.setText(medicament!!.titulaire)
-        survRenforcee!!.setText(medicament!!.survRenforcee)
+        status!!.setText(medicament?.statusBdm)
+        etat!!.setText(medicament?.etatCommer)
+        dateAmm!!.setText(medicament?.dateAmm)
+        titulaire!!.setText(medicament?.titulaire)
+        survRenforcee!!.setText(medicament?.survRenforcee)
     }
 }
