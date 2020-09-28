@@ -40,10 +40,6 @@ class DetailViewPagerActivity : AppCompatActivity() {
         Log.d(TAG, "onCreateViewpager")
         super.onCreate(savedInstanceState)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
         setContentView(R.layout.detail_viewpager)
 
         viewPager2.orientation = ViewPager2.ORIENTATION_VERTICAL

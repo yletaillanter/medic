@@ -50,7 +50,7 @@ class FrontPageCardView @JvmOverloads constructor(
         formePharma!!.setText(medicament?.formePharma)
         voieAdmin!!.setText(medicament?.voieAdministration)
         if (medicament!!.presentations.size > 0 ) {
-            price!!.setText(medicament!!.presentations[0].prixMedicEuro)
+            price!!.setText("${medicament!!.presentations[0].prixMedicEuro}€")
             rembRate!!.setText(medicament!!.presentations[0].txRemboursement)
         }
         buttonNotice.setOnClickListener {

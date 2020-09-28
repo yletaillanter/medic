@@ -1,6 +1,5 @@
 package com.ylt.medic.rest.responses
 
-import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 
 /**

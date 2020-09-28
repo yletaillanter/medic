@@ -37,18 +37,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/label_lib_grp_gener"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lib_grp_gener"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_grp_gener"/>
 
         <TextView
             android:id="@+id/lib_grp_gener"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@+id/label_lib_grp_gener"
-            app:layout_constraintTop_toBottomOf="@+id/grp_gener"
-            tools:text="ALPRAZOLAM - XANAX comprimé sécable" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_lib_grp_gener"
+            tools:text="@tools:sample/lorem/random" />
 
 
         <TextView
