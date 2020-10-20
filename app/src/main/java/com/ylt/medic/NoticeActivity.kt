@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import timber.log.Timber
 
 
 class NoticeActivity : AppCompatActivity() {
@@ -25,7 +26,7 @@ class NoticeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice)
-        Log.d(TAG, "notice")
+        Timber.d( "notice")
 
         noticeTextView = findViewById(R.id.notice)
 
@@ -35,14 +36,14 @@ class NoticeActivity : AppCompatActivity() {
             lifecycleScope.launch {
 
                 val result = httpGet("http://base-donnees-publique.medicaments.gouv.fr/affichageDoc.php?specid=$codeCis&typedoc=N")
-                Log.d(TAG,"Parse result:" + result.getElementById("contentDocument"))
+                Timber.d("Parse result:" + result.getElementById("contentDocument"))
 
                 try {
                     noticeTextView.setText(HtmlCompat.fromHtml(result.getElementById("contentDocument").toString(), 0));
                 } catch(npe: NullPointerException) {
                     if (HtmlCompat.fromHtml(result.getElementById("contentPrincipal").toString(), 0).contains("Le document demandé n'est pas disponible pour ce médicament")) {
                         noticeTextView.setText("Le document demandé n'est pas disponible pour ce médicament")
-                        Log.d(TAG, "notice non dispo")
+                        Timber.d( "notice non dispo")
                     }
                 }
             }
@@ -57,11 +58,11 @@ class NoticeActivity : AppCompatActivity() {
         val isConnected: Boolean = if(networkInfo != null) networkInfo.isConnected() else false
 
         if (isConnected) {
-            Log.i(TAG, "Connected!")
+            Timber.i( "Connected!")
             //tvIsConnected.setText("Connected "+networkInfo?.typeName)
             //tvIsConnected.setBackgroundColor(0xFF7CCC26.toInt())
         } else {
-            Log.i(TAG, "Not Connected!")
+            Timber.i( "Not Connected!")
             //tvIsConnected.setText("Not Connected!")
             //tvIsConnected.setBackgroundColor(0xFFFF0000.toInt())
         }
@@ -70,7 +71,7 @@ class NoticeActivity : AppCompatActivity() {
 
 
     private suspend fun httpGet(myURL: String): Document {
-        Log.d(TAG, myURL)
+        Timber.d( myURL)
 
         return withContext(Dispatchers.IO) {
             Jsoup.connect(myURL).get()

@@ -20,6 +20,7 @@ import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.*
 import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 import kotlin.collections.ArrayList
 
 
@@ -41,6 +42,7 @@ class SearchActivity : BaseActivity(), ClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.i("starting SearchingActivity")
 
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SearchViewModel::class.java)
 
@@ -107,11 +109,11 @@ class SearchActivity : BaseActivity(), ClickListener {
 
         // if medic not in cache
         if (id == 0L ) {
-            Log.d(TAG, "caching medic in DB")
+            Timber.d( "caching medic in DB")
             // insert du medicament
             insertMedicByCis(data[position].codeCis)
         } else {
-            Log.d(TAG, "getting medic from cache! id: $id")
+            Timber.d( "getting medic from cache! id: $id")
             val intent: Intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
@@ -154,7 +156,7 @@ class SearchActivity : BaseActivity(), ClickListener {
     private fun getMedicByCis(cis: String){
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Log.i(TAG, "${model.arrayToArrayList(response)[0].toString()}")
+                Timber.i( "${model.arrayToArrayList(response)[0].toString()}")
             }
         )
     }

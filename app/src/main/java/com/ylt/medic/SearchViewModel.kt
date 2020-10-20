@@ -14,6 +14,7 @@ import com.ylt.medic.rest.responses.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 /**
  * Created by yoannlt on 08/07/2017.
@@ -54,35 +55,35 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
     /* DATABASE */
     internal fun insertFullMedic(medic: Medicament): List<Long> {
-        Log.d(TAG, "insert: $medic")
+        Timber.d( "insert: $medic")
 
         // On enregistre tous les elements lies au medicament
         medic.ASMRs.forEach{ asmr ->
-            Log.d(TAG, "inserting $asmr")
+            Timber.d( "inserting $asmr")
             MedicDatabase.getInstance(getApplication()).asmrDao().insert(asmr)
         }
         medic.compos.forEach{ compo ->
-            Log.d(TAG, "inserting $compo")
+            Timber.d( "inserting $compo")
             MedicDatabase.getInstance(getApplication()).compoDao().insert(compo)
         }
         medic.conditionPrescritions.forEach{ condi ->
-            Log.d(TAG, "inserting $condi")
+            Timber.d( "inserting $condi")
             MedicDatabase.getInstance(getApplication()).conditionPrescriptionDao().insert(condi)
         }
         medic.generiques.forEach{ gener ->
-            Log.d(TAG, "inserting $gener")
+            Timber.d( "inserting $gener")
             MedicDatabase.getInstance(getApplication()).generiqueDao().insert(gener)
         }
         medic.infos.forEach{ info ->
-            Log.d(TAG, "inserting $info")
+            Timber.d( "inserting $info")
             MedicDatabase.getInstance(getApplication()).infoImportantDao().insert(info)
         }
         medic.presentations.forEach{ prez ->
-            Log.d(TAG, "inserting $prez")
+            Timber.d( "inserting $prez")
             MedicDatabase.getInstance(getApplication()).presentationDao().insert(prez)
         }
         medic.SMRs.forEach{ smr ->
-            Log.d(TAG, "inserting $smr")
+            Timber.d( "inserting $smr")
             MedicDatabase.getInstance(getApplication()).smrDao().insert(smr)
         }
 

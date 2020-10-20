@@ -1,8 +1,6 @@
 package com.ylt.medic
 
 import android.os.Bundle
-import android.util.Log
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +16,7 @@ import com.ylt.medic.Constants.Companion.INFO_IMPORTANTES
 import com.ylt.medic.Constants.Companion.SMR
 import com.ylt.medic.database.model.Medicament
 import kotlinx.android.synthetic.main.detail_viewpager.*
+import timber.log.Timber
 
 class DetailViewPagerActivity : AppCompatActivity() {
 
@@ -37,7 +36,7 @@ class DetailViewPagerActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreateViewpager")
+        Timber.d( "onCreateViewpager")
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.detail_viewpager)

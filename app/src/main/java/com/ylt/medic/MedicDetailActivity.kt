@@ -3,7 +3,6 @@ package com.ylt.medic
 import android.content.Intent
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.util.Log
 import android.view.View
 import com.ylt.medic.database.model.Medicament
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ylt.medic.databinding.ActivityMedicDetailBinding
+import timber.log.Timber
 
 
 class MedicDetailActivity : AppCompatActivity() {
@@ -34,7 +34,7 @@ class MedicDetailActivity : AppCompatActivity() {
         //Get the medic
         val id:Long = getIntent().getLongExtra("id", 0L)
         currentMedicament = model.getByCis(id)
-        Log.i(TAG, "detailMedic: $currentMedicament")
+        Timber.i( "detailMedic: $currentMedicament")
 
         initViews()
 
