@@ -8,8 +8,7 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item android:id="@+id/barcode"
-        android:title="Search"
+        android:title="Barcode search"
         android:icon="@drawable/barcode"
         app:showAsAction="always" />
-
 </menu>
