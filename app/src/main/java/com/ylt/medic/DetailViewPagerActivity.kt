@@ -31,7 +31,6 @@ class DetailViewPagerActivity : AppCompatActivity() {
         ASMR
     )
 
-    private val TAG = "DetailViewPagerActivity"
     lateinit var currentMedicament: Medicament
     lateinit var toolbar: Toolbar
 

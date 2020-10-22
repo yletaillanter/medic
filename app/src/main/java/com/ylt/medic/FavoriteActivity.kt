@@ -31,7 +31,7 @@ class FavoriteActivity : BaseActivity(), ClickListener {
         get() = R.layout.activity_favorite
 
     override val navigationMenuItemId: Int
-        get() = R.id.navigation_favorite
+        get() = R.id.navigation_bookmark
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

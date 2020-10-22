@@ -9,17 +9,37 @@
         android:id="@+id/navigation_search"
         android:name="com.ylt.medic.ui.search.SearchFragment"
         android:label="Rechercher un médicament"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_detailed"
+            app:destination="@id/navigation_detailed"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_bookmark"
         android:name="com.ylt.medic.ui.bookmark.BookmarkFragment"
         android:label="@string/title_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+        tools:layout="@layout/fragment_bookmark" >
+        <action
+            android:id="@+id/action_navigation_bookmark_to_navigation_detailed"
+            app:destination="@id/navigation_detailed" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_about"
         android:name="com.ylt.medic.ui.about.AboutFragment"
         android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/navigation_detailed"
+        android:name="com.ylt.medic.ui.detailed.DetailedFragment"
+        android:label="detail medic"
+        tools:layout="@layout/detailed_fragment" >
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
 </navigation>

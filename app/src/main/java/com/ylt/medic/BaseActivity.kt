@@ -40,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity(), BottomNavigationView.OnNaviga
             val itemId = item.itemId
             if (itemId == R.id.navigation_search) {
                 startActivity(Intent(this, SearchActivity::class.java))
-            } else if (itemId == R.id.navigation_favorite) {
+            } else if (itemId == R.id.navigation_bookmark) {
                 startActivity(Intent(this, FavoriteActivity::class.java))
             } else if (itemId == R.id.navigation_about) {
                 startActivity(Intent(this, AboutActivity::class.java))

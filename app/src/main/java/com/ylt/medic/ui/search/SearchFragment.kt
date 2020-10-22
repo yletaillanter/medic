@@ -1,18 +1,17 @@
 package com.ylt.medic.ui.search
 
-import com.ylt.medic.MainActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import com.ylt.medic.R
-import com.ylt.medic.SearchViewModel
+import com.ylt.medic.*
 import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.Medicament
@@ -90,18 +89,19 @@ class SearchFragment : Fragment(), ClickListener {
 
         // check if medic already exists
         // TODO invalid du cache
-        //var id = model.getIdByCis(data[position].codeCis)
+        val id = model.getIdByCis(data[position].codeCis)
 
-        var id = 0L;
+        //var id = 0L;
 
         // if medic not in cache
         if (id == 0L ) {
             Timber.i("caching medic in DB")
             // insert du medicament
-            //insertMedicByCis(data[position].codeCis)
+            insertMedicByCis(data[position].codeCis)
         } else {
             Timber.i("getting medic from cache! id: $id")
-            //val intent: Intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
+            view.findNavController().navigate(SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(id))
+            //val intent: Intent = Intent(activity, DetailViewPagerActivity::class.java)
             //intent.putExtra("id", id)
             //startActivity(intent)
         }
@@ -114,7 +114,6 @@ class SearchFragment : Fragment(), ClickListener {
 
     fun startSearching(query: String) {
         Timber.i("Start searching: $query")
-        /*
         compositeDisposable.add(
             model.searchMedicByName(query).subscribe { response ->
                 Timber.i("response: $response")
@@ -123,12 +122,10 @@ class SearchFragment : Fragment(), ClickListener {
                 adapter.replace(this.data)
             }
         )
-        */
     }
     fun getByCip13(cip: String) {
         Timber.i("getByCip13")
 
-         /*
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
                 Timber.i("response: $response")
@@ -136,43 +133,38 @@ class SearchFragment : Fragment(), ClickListener {
                 adapter.replace(this.data)
             }
         )
-        */
     }
+
     private fun insertMedicByCis(cis: String) {
         Timber.i("insertMedicByCis: $cis")
 
-        /*
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
                 Timber.i("response: $response")
-                /*
                 var id = model.insertFullMedic(model.arrayToArrayList(response)[0])
 
-                //val intent = Intent(applicationContext, MedicDetailActivity::class.java)
-                val intent = Intent(context as com.ylt.medic.MainActivity, DetailViewPagerActivity::class.java)
-                intent.putExtra("id", id[0])
-                startActivity(intent)
-                 */
+                //val intent = Intent(this, MedicDetailActivity::class.java)
+                //val intent = Intent(context as com.ylt.medic.MainActivity, DetailViewPagerActivity::class.java)
+                //intent.putExtra("id", id[0])
+                //startActivity(intent)
+                view?.findNavController()?.navigate(SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(id[0]))
             }
         )
-        */
     }
     private fun getMedicByCis(cis: String) {
         Timber.i("getMedicByCis: $cis")
 
-        /*
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Timber.i("${model.arrayToArrayList(response)[0].toString()}")
+                Timber.i("${model.arrayToArrayList(response)[0]}")
             }
         )
-        */
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.barcode -> {
-                //IntentIntegrator(this).initiateScan(); // `this` is the current Activity
+                IntentIntegrator(activity).initiateScan(); // `this` is the current Activity
             }
         }
 

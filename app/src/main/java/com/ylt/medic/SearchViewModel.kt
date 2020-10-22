@@ -24,8 +24,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     val TAG = "SearchViewModel.class"
 
     // Adresse du serveur
-    private val BASE_URL = "http://10.0.2.2:3000/"
-    //private val BASE_URL = "http://192.168.1.10:3000/"
+    //private val BASE_URL = "http://10.0.2.2:3000/"
+    private val BASE_URL = "http://192.168.1.10:3000/"
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
@@ -87,7 +87,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
             MedicDatabase.getInstance(getApplication()).smrDao().insert(smr)
         }
 
-        Log.i("INSERT", "inserting $medic")
+        Timber.i("inserting $medic")
         // puis le medicament
         return MedicDatabase.getInstance(getApplication()).medicamentDao().insert(medic)
     }
@@ -103,13 +103,13 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
 
     fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
-        var result: ArrayList<Medicament> = ArrayList()
+        val result: ArrayList<Medicament> = ArrayList()
         medocArray.forEach { medoc -> result.add(medicResponseToMedic(medoc))}
         return result
     }
 
     fun medicResponseToMedic(medicResponse: MedicamentResponse): Medicament {
-        var medicResult = Medicament()
+        val medicResult = Medicament()
 
         medicResult.codeCis = medicResponse.codeCis
         medicResult.dateAmm = medicResponse.dateAmm
@@ -135,8 +135,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayPresentation(presentations: List<PresentationResponse>): ArrayList<Presentation> {
-        var resultArray = ArrayList<Presentation>()
-        var resultPresentation = Presentation()
+        val resultArray = ArrayList<Presentation>()
+        val resultPresentation = Presentation()
 
         presentations.forEach{ prezResponse ->
             resultPresentation.codeCis = prezResponse.codeCis
@@ -156,8 +156,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayASMR(asmrs: List<AsmrResponse>): ArrayList<ASMR> {
-        var resultArray = ArrayList<ASMR>()
-        var resultAsmr  = ASMR()
+        val resultArray = ArrayList<ASMR>()
+        val resultAsmr  = ASMR()
 
         asmrs.forEach { asmrResponse ->
             resultAsmr.codeCis = asmrResponse.codeCis
@@ -172,8 +172,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayCompo(compos: List<CompoResponse>): ArrayList<Compo> {
-        var resultArray = ArrayList<Compo>()
-        var resultCompo  = Compo()
+        val resultArray = ArrayList<Compo>()
+        val resultCompo  = Compo()
 
         compos.forEach { compoResponse ->
             resultCompo.codeCis = compoResponse.codeCis
@@ -191,8 +191,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayConditionPrecription(condiPrescri: List<ConditionPrescriptionResponse>): ArrayList<ConditionPrescription> {
-        var resultArray = ArrayList<ConditionPrescription>()
-        var resultConditionPrescription  = ConditionPrescription()
+        val resultArray = ArrayList<ConditionPrescription>()
+        val resultConditionPrescription  = ConditionPrescription()
 
         condiPrescri.forEach { condiPresResponse ->
             resultConditionPrescription.codeCis = condiPresResponse.codeCis
@@ -204,8 +204,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayGenerique(generiquesResponse: List<GeneriqueResponse>): ArrayList<Generique> {
-        var resultArray = ArrayList<Generique>()
-        var resultGenerique  = Generique()
+        val resultArray = ArrayList<Generique>()
+        val resultGenerique  = Generique()
 
         generiquesResponse.forEach { geneResponse ->
             resultGenerique.codeCis = geneResponse.codeCis
@@ -220,8 +220,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayInfoImportantes(infos: List<InfoImportantesResponse>): ArrayList<InfoImportantes> {
-        var resultArray = ArrayList<InfoImportantes>()
-        var resultInfo  = InfoImportantes()
+        val resultArray = ArrayList<InfoImportantes>()
+        val resultInfo  = InfoImportantes()
 
         infos.forEach { info ->
             resultInfo.codeCis = info.codeCis
@@ -235,8 +235,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArraySMR(smrs: List<SmrResponse>): ArrayList<SMR> {
-        var resultArray = ArrayList<SMR>()
-        var resultSMR  = SMR()
+        val resultArray = ArrayList<SMR>()
+        val resultSMR  = SMR()
 
         smrs.forEach { smr ->
             resultSMR.codeCis = smr.codeCis
