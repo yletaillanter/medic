@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +25,6 @@ class SearchFragment : Fragment(), ClickListener {
     lateinit var medocSearchRecyclerView: RecyclerView
     lateinit var data: ArrayList<Medicament>
     lateinit var adapter: AdapterMedicSearch
-    lateinit var toolbar: Toolbar
 
     lateinit var model: SearchViewModel;
 
@@ -71,10 +69,6 @@ class SearchFragment : Fragment(), ClickListener {
     }
 
     private fun initLayoutElement(root: View) {
-        // Toolbar
-        toolbar = root.findViewById(R.id.toolbar)
-        //root.setSupportActionBar(toolbar)
-
         // Recycler view
         medocSearchRecyclerView = root.findViewById(R.id.medoc_search_recycler_view)
         medocSearchRecyclerView.setHasFixedSize(true)
@@ -119,32 +113,35 @@ class SearchFragment : Fragment(), ClickListener {
     }
 
     fun startSearching(query: String) {
-        Timber.i("Start searching")
+        Timber.i("Start searching: $query")
+        /*
         compositeDisposable.add(
             model.searchMedicByName(query).subscribe { response ->
                 Timber.i("response: $response")
 
-                /*
                 this.data = model.arrayToArrayList(response)
                 adapter.replace(this.data)
-                 */
             }
         )
+        */
     }
     fun getByCip13(cip: String) {
         Timber.i("getByCip13")
+
+         /*
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
                 Timber.i("response: $response")
-                /*
                 this.data = model.arrayToArrayList(response)
                 adapter.replace(this.data)
-                 */
             }
         )
+        */
     }
     private fun insertMedicByCis(cis: String) {
         Timber.i("insertMedicByCis: $cis")
+
+        /*
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
                 Timber.i("response: $response")
@@ -158,14 +155,18 @@ class SearchFragment : Fragment(), ClickListener {
                  */
             }
         )
+        */
     }
     private fun getMedicByCis(cis: String) {
         Timber.i("getMedicByCis: $cis")
+
+        /*
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
                 Timber.i("${model.arrayToArrayList(response)[0].toString()}")
             }
         )
+        */
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

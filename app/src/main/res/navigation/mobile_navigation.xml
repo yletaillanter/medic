@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.ylt.medic.ui.search.SearchFragment"
-        android:label="SearchFragment"
+        android:label="Rechercher un médicament"
         tools:layout="@layout/fragment_search" />
 
     <fragment
