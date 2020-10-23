@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -33,13 +32,12 @@ class DetailedFragment : Fragment() {
     )
 
     lateinit var currentMedicament: Medicament
-    lateinit var toolbar: Toolbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root =  inflater.inflate(R.layout.detailed_fragment, container, false)
+        val root =  inflater.inflate(R.layout.fragment_detailed, container, false)
         Timber.i("onCreateView")
 
-        val model = ViewModelProvider(this).get(DetailViewModel::class.java)
+        val model = ViewModelProvider(this).get(DetailedViewModel::class.java)
 
         val tabLayout: TabLayout = root.findViewById(R.id.tabLayout)
         val viewPager2: ViewPager2 = root.findViewById(R.id.viewPager2)

@@ -33,7 +33,6 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // On recup l'annonce courante
         medoc = mDataset!!.get(position)
 
         // set view from medoc

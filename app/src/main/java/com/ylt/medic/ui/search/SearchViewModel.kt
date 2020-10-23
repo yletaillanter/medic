@@ -1,7 +1,6 @@
-package com.ylt.medic
+package com.ylt.medic.ui.search
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Flowable
@@ -101,11 +100,14 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdByCis(cis)
     }
 
-
     fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
         val result: ArrayList<Medicament> = ArrayList()
         medocArray.forEach { medoc -> result.add(medicResponseToMedic(medoc))}
         return result
+    }
+
+    internal fun getBookmarked(): List<Medicament> {
+        return MedicDatabase.getInstance(getApplication()).medicamentDao().getBookmarked()
     }
 
     fun medicResponseToMedic(medicResponse: MedicamentResponse): Medicament {

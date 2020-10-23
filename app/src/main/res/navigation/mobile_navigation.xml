@@ -37,7 +37,7 @@
         android:id="@+id/navigation_detailed"
         android:name="com.ylt.medic.ui.detailed.DetailedFragment"
         android:label="detail medic"
-        tools:layout="@layout/detailed_fragment" >
+        tools:layout="@layout/fragment_detailed" >
         <argument
             android:name="id"
             app:argType="long" />

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Médicament</string>
     <string name="title_search">Rechercher</string>
-    <string name="title_bookmark">Sauvegarder</string>
+    <string name="title_bookmark">Sauvegardé</string>
     <string name="title_about">À propos</string>
     <string name="search_title">Rechercher</string>
     <string name="search_hint">Entrer un nom de médicament</string>
