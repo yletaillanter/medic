@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ylt.medic.*
+import com.ylt.medic.adapter.ViewPagerAdapter
 import com.ylt.medic.database.model.Medicament
 import timber.log.Timber
 

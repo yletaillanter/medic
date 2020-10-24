@@ -1,15 +1,14 @@
 package com.ylt.medic.views
 
 import android.content.Context
-import android.content.Intent
-import android.provider.AlarmClock
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import com.ylt.medic.NoticeActivity
+import androidx.navigation.findNavController
 import com.ylt.medic.R
 import com.ylt.medic.database.model.Medicament
+import com.ylt.medic.ui.detailed.DetailedFragmentDirections
 
 class FrontPageCardView @JvmOverloads constructor(
     context: Context?,
@@ -54,10 +53,7 @@ class FrontPageCardView @JvmOverloads constructor(
             rembRate!!.setText(medicament!!.presentations[0].txRemboursement)
         }
         buttonNotice.setOnClickListener {
-            val intent = Intent(context, NoticeActivity::class.java).apply {
-                putExtra(AlarmClock.EXTRA_MESSAGE, medicament!!.codeCis)
-            }
-            context.startActivity(intent)
+            it?.findNavController()?.navigate(DetailedFragmentDirections.actionNavigationDetailedToNoticeFragment(medicament!!.codeCis))
         }
     }
 }

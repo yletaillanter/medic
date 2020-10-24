@@ -7,13 +7,7 @@ import androidx.cardview.widget.CardView
 import com.ylt.medic.R
 import com.ylt.medic.database.model.Medicament
 
-class InfoGeneralCardView @JvmOverloads constructor(
-    context: Context?,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : CardView(
-    context!!, attrs, defStyleAttr
-) {
+class InfoGeneralCardView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context!!, attrs, defStyleAttr) {
     private var medicament: Medicament? = null
     private var status: TextView? = null
     private var etat: TextView? = null

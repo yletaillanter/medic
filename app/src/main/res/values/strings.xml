@@ -44,4 +44,6 @@
     <string name="generique_title">Générique</string>
     <string name="title_activity_detail_view_pager">DetailViewPager</string>
     <string name="label_date_decla_commer">Date commer. :</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

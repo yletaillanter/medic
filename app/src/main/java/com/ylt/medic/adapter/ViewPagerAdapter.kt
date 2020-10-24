@@ -1,4 +1,4 @@
-package com.ylt.medic
+package com.ylt.medic.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

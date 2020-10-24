@@ -15,6 +15,9 @@
             app:destination="@id/navigation_detailed"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_search_to_barcodeActivity"
+            app:destination="@id/barcodeActivity" />
     </fragment>
 
     <fragment
@@ -41,5 +44,24 @@
         <argument
             android:name="id"
             app:argType="long" />
+        <action
+            android:id="@+id/action_navigation_detailed_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
+    </fragment>
+
+    <activity
+        android:id="@+id/barcodeActivity"
+        android:name="com.ylt.medic.barcode.BarcodeActivity"
+        android:label="activity_barcode"
+        tools:layout="@layout/activity_barcode" />
+
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.ylt.medic.ui.notice.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" >
+        <argument
+            android:name="cis"
+            app:argType="string" />
     </fragment>
 </navigation>

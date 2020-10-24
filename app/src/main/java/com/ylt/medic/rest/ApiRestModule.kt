@@ -1,7 +1,6 @@
-package com.ylt.medic.di
+package com.ylt.medic.rest
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.ylt.medic.rest.InterfaceRest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

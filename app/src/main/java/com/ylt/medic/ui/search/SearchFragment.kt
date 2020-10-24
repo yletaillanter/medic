@@ -21,7 +21,7 @@ import timber.log.Timber
 
 class SearchFragment : Fragment(), ClickListener {
 
-    lateinit var medocSearchRecyclerView: RecyclerView
+    lateinit var recyclerView: RecyclerView
     lateinit var data: ArrayList<Medicament>
     lateinit var adapter: AdapterMedicSearch
 
@@ -69,10 +69,10 @@ class SearchFragment : Fragment(), ClickListener {
 
     private fun initLayoutElement(root: View) {
         // Recycler view
-        medocSearchRecyclerView = root.findViewById(R.id.medoc_search_recycler_view)
-        medocSearchRecyclerView.setHasFixedSize(true)
+        recyclerView = root.findViewById(R.id.medoc_search_recycler_view)
+        recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context as MainActivity)
-        medocSearchRecyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = layoutManager
 
         // Data and adapter
         data = ArrayList()
@@ -80,18 +80,17 @@ class SearchFragment : Fragment(), ClickListener {
         adapter.replace(data)
         adapter.setContext(context as MainActivity)
         adapter.setClickListener(this)
-        medocSearchRecyclerView.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     override fun itemClicked(view: View, position: Int, recycler: String) {
         // TODO : remove, for debug only
         //deleteAll()
 
+
         // check if medic already exists
         // TODO invalid du cache
         val id = model.getIdByCis(data[position].codeCis)
-
-        //var id = 0L;
 
         // if medic not in cache
         if (id == 0L ) {
@@ -101,9 +100,6 @@ class SearchFragment : Fragment(), ClickListener {
         } else {
             Timber.i("getting medic from cache! id: $id")
             view.findNavController().navigate(SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(id))
-            //val intent: Intent = Intent(activity, DetailViewPagerActivity::class.java)
-            //intent.putExtra("id", id)
-            //startActivity(intent)
         }
     }
 
@@ -116,13 +112,13 @@ class SearchFragment : Fragment(), ClickListener {
         Timber.i("Start searching: $query")
         compositeDisposable.add(
             model.searchMedicByName(query).subscribe { response ->
-                Timber.i("response: $response")
-
                 this.data = model.arrayToArrayList(response)
+                Timber.i("dataformat: ${data.toString()}")
                 adapter.replace(this.data)
             }
         )
     }
+
     fun getByCip13(cip: String) {
         Timber.i("getByCip13")
 
@@ -130,6 +126,7 @@ class SearchFragment : Fragment(), ClickListener {
             model.getMedicByCip13(cip).subscribe { response ->
                 Timber.i("response: $response")
                 this.data = model.arrayToArrayList(response)
+                Timber.i("format: $this.data")
                 adapter.replace(this.data)
             }
         )
@@ -142,11 +139,6 @@ class SearchFragment : Fragment(), ClickListener {
             model.getMedicByCis(cis).subscribe { response ->
                 Timber.i("response: $response")
                 var id = model.insertFullMedic(model.arrayToArrayList(response)[0])
-
-                //val intent = Intent(this, MedicDetailActivity::class.java)
-                //val intent = Intent(context as com.ylt.medic.MainActivity, DetailViewPagerActivity::class.java)
-                //intent.putExtra("id", id[0])
-                //startActivity(intent)
                 view?.findNavController()?.navigate(SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(id[0]))
             }
         )
@@ -179,6 +171,9 @@ class SearchFragment : Fragment(), ClickListener {
             resultCode,
             data
         );
+
+        Timber.i("retour codebar: ${result.getContents()}")
+
         if(result.getContents() == null) {
             medicNotFound()
         } else {

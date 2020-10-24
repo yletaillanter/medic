@@ -1,15 +1,10 @@
 package com.ylt.medic.views
 
 import android.content.Context
-import android.content.Intent
-import android.provider.AlarmClock
 import android.util.AttributeSet
-import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import com.ylt.medic.NoticeActivity
 import com.ylt.medic.R
-import com.ylt.medic.database.model.Medicament
 import com.ylt.medic.database.model.Presentation
 
 class BoiteCardView @JvmOverloads constructor(

@@ -1,4 +1,4 @@
-package com.ylt.medic
+package com.ylt.medic.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +13,8 @@ import com.ylt.medic.Constants.Companion.GENERIQUES
 import com.ylt.medic.Constants.Companion.INFO_GENERALES
 import com.ylt.medic.Constants.Companion.INFO_IMPORTANTES
 import com.ylt.medic.Constants.Companion.SMR
+import com.ylt.medic.R
 import com.ylt.medic.database.model.*
-import com.ylt.medic.rest.responses.*
 import com.ylt.medic.views.*
 import kotlinx.android.synthetic.main.card_receiver_viewpager.view.*
 
