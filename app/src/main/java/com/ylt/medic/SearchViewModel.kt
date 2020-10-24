@@ -3,6 +3,7 @@ package com.ylt.medic
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,10 +12,18 @@ import com.ylt.medic.database.MedicDatabase
 import com.ylt.medic.database.model.*
 import com.ylt.medic.rest.InterfaceRest
 import com.ylt.medic.rest.responses.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.nio.channels.Selector.open
 
 /**
  * Created by yoannlt on 08/07/2017.
@@ -87,7 +96,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
             MedicDatabase.getInstance(getApplication()).smrDao().insert(smr)
         }
 
-        Log.i("INSERT", "inserting $medic")
+        Timber.i("inserting $medic")
         // puis le medicament
         return MedicDatabase.getInstance(getApplication()).medicamentDao().insert(medic)
     }
@@ -103,13 +112,13 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
 
     fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
-        var result: ArrayList<Medicament> = ArrayList()
+        val result: ArrayList<Medicament> = ArrayList()
         medocArray.forEach { medoc -> result.add(medicResponseToMedic(medoc))}
         return result
     }
 
     fun medicResponseToMedic(medicResponse: MedicamentResponse): Medicament {
-        var medicResult = Medicament()
+        val medicResult = Medicament()
 
         medicResult.codeCis = medicResponse.codeCis
         medicResult.dateAmm = medicResponse.dateAmm
@@ -135,8 +144,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayPresentation(presentations: List<PresentationResponse>): ArrayList<Presentation> {
-        var resultArray = ArrayList<Presentation>()
-        var resultPresentation = Presentation()
+        val resultArray = ArrayList<Presentation>()
+        val resultPresentation = Presentation()
 
         presentations.forEach{ prezResponse ->
             resultPresentation.codeCis = prezResponse.codeCis
@@ -156,8 +165,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayASMR(asmrs: List<AsmrResponse>): ArrayList<ASMR> {
-        var resultArray = ArrayList<ASMR>()
-        var resultAsmr  = ASMR()
+        val resultArray = ArrayList<ASMR>()
+        val resultAsmr  = ASMR()
 
         asmrs.forEach { asmrResponse ->
             resultAsmr.codeCis = asmrResponse.codeCis
@@ -172,8 +181,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayCompo(compos: List<CompoResponse>): ArrayList<Compo> {
-        var resultArray = ArrayList<Compo>()
-        var resultCompo  = Compo()
+        val resultArray = ArrayList<Compo>()
+        val resultCompo  = Compo()
 
         compos.forEach { compoResponse ->
             resultCompo.codeCis = compoResponse.codeCis
@@ -191,8 +200,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayConditionPrecription(condiPrescri: List<ConditionPrescriptionResponse>): ArrayList<ConditionPrescription> {
-        var resultArray = ArrayList<ConditionPrescription>()
-        var resultConditionPrescription  = ConditionPrescription()
+        val resultArray = ArrayList<ConditionPrescription>()
+        val resultConditionPrescription  = ConditionPrescription()
 
         condiPrescri.forEach { condiPresResponse ->
             resultConditionPrescription.codeCis = condiPresResponse.codeCis
@@ -204,8 +213,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayGenerique(generiquesResponse: List<GeneriqueResponse>): ArrayList<Generique> {
-        var resultArray = ArrayList<Generique>()
-        var resultGenerique  = Generique()
+        val resultArray = ArrayList<Generique>()
+        val resultGenerique  = Generique()
 
         generiquesResponse.forEach { geneResponse ->
             resultGenerique.codeCis = geneResponse.codeCis
@@ -220,8 +229,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArrayInfoImportantes(infos: List<InfoImportantesResponse>): ArrayList<InfoImportantes> {
-        var resultArray = ArrayList<InfoImportantes>()
-        var resultInfo  = InfoImportantes()
+        val resultArray = ArrayList<InfoImportantes>()
+        val resultInfo  = InfoImportantes()
 
         infos.forEach { info ->
             resultInfo.codeCis = info.codeCis
@@ -235,8 +244,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     }
 
     fun getArraySMR(smrs: List<SmrResponse>): ArrayList<SMR> {
-        var resultArray = ArrayList<SMR>()
-        var resultSMR  = SMR()
+        val resultArray = ArrayList<SMR>()
+        val resultSMR  = SMR()
 
         smrs.forEach { smr ->
             resultSMR.codeCis = smr.codeCis
@@ -260,6 +269,53 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         MedicDatabase.getInstance(getApplication()).medicamentDao().deleteTable();
         MedicDatabase.getInstance(getApplication()).presentationDao().deleteTable();
         MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
+    }
+
+    internal fun loadingData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val medic: Medicament = Medicament()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    medic.codeCis = array.get(0)
+                    medic.denomination = array.get(1)
+                    medic.formePharma = array.get(2)
+                    medic.voieAdministration = array.get(3)
+                    medic.statutAdminAmm = array.get(4)
+                    medic.typeProcedAmm = array.get(5)
+                    medic.etatCommer = array.get(6)
+                    medic.dateAmm = array.get(7)
+                    medic.statusBdm = array.get(8)
+                    medic.numAutorEu = array.get(9)
+                    medic.titulaire = array.get(10)
+                    medic.survRenforcee = array.get(11)
+
+                    insertFullMedic(medic)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -20,7 +19,11 @@ import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.*
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.GlobalScope
 import timber.log.Timber
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 import kotlin.collections.ArrayList
 
 
@@ -38,15 +41,15 @@ class SearchActivity : BaseActivity(), ClickListener {
 
     var compositeDisposable = CompositeDisposable()
 
-    private val TAG: String = "SearchActivity"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.i("starting SearchingActivity")
+        Timber.i("onCreate")
 
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SearchViewModel::class.java)
+        model.loadingData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
 
         initLayoutElement()
+
     }
 
     override val contentViewId: Int
@@ -80,6 +83,8 @@ class SearchActivity : BaseActivity(), ClickListener {
     }
 
     private fun initLayoutElement() {
+        Timber.i("initLayout")
+
         // Toolbar
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
