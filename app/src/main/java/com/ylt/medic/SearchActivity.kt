@@ -46,7 +46,13 @@ class SearchActivity : BaseActivity(), ClickListener {
         Timber.i("onCreate")
 
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SearchViewModel::class.java)
-        model.loadingData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCPDData(InputStreamReader(assets.open("CIS_CPD_bdpm.txt"), "ISO-8859-1"))
+        model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
+        model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
+        model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
 
         initLayoutElement()
 

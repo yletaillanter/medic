@@ -271,11 +271,10 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
     }
 
-    internal fun loadingData(isr: InputStreamReader) {
+    internal fun loadingCisBdpmData(isr: InputStreamReader) {
         Timber.i("loadingData")
 
         val job = Job()
-
         CoroutineScope(job).launch {
             var reader : BufferedReader? = null
             try {
@@ -302,6 +301,288 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
                     medic.survRenforcee = array.get(11)
 
                     insertFullMedic(medic)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+
+    internal fun loadingCisCipData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val presentation: Presentation = Presentation()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    presentation.codeCis = array.get(0)
+                    presentation.codeCip7 = array.get(1)
+                    presentation.libellePresentation = array.get(2)
+                    presentation.statutAdminPres = array.get(3)
+                    presentation.etatCommer = array.get(4)
+                    presentation.dateDeclaCommer = array.get(5)
+                    presentation.codeCip13 = array.get(6)
+                    presentation.agrementCollec = array.get(7)
+                    presentation.txRemboursement = array.get(8)
+                    presentation.prixMedicEuro = array.get(9)
+                    presentation.indicDroitRemb = array.get(10)
+
+                    MedicDatabase.getInstance(getApplication()).presentationDao().insert(presentation)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+    internal fun loadingCisCompoData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val compo: Compo = Compo()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    compo.codeCis = array.get(0)
+                    compo.designationElemPh = array.get(1)
+                    compo.codeSubstance = array.get(2)
+                    compo.denoSubstance = array.get(3)
+                    compo.dosageSubstance = array.get(4)
+                    compo.refSubstance = array.get(5)
+                    compo.natureComposant = array.get(6)
+                    compo.numLiaisonSaFt = array.get(7)
+
+                    MedicDatabase.getInstance(getApplication()).compoDao().insert(compo)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+    internal fun loadingSMRData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val smr: SMR = SMR()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    smr.codeCis = array.get(0)
+                    smr.codeDossierHas = array.get(1)
+                    smr.motifEval = array.get(2)
+                    smr.dateAvisCommTransp = array.get(3)
+                    smr.valeurSmr = array.get(4)
+                    smr.libelleSmr = array.get(5)
+
+                    MedicDatabase.getInstance(getApplication()).smrDao().insert(smr)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+
+    internal fun loadingASMRData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val asmr: ASMR = ASMR()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    asmr.codeCis = array.get(0)
+                    asmr.codeDossierHas = array.get(1)
+                    asmr.motifEval = array.get(2)
+                    asmr.dateAvisCommTransp = array.get(3)
+                    asmr.valeurAsmr = array.get(4)
+                    asmr.libelleAsmr = array.get(5)
+
+                    MedicDatabase.getInstance(getApplication()).asmrDao().insert(asmr)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+    internal fun loadingGenerData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val generique: Generique = Generique()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    generique.idGrpGener = array.get(0)
+                    generique.libelleGrpGener = array.get(1)
+                    generique.codeCis = array.get(2)
+                    generique.typeGener = array.get(3)
+                    generique.numeroTri = array.get(4)
+
+                    MedicDatabase.getInstance(getApplication()).generiqueDao().insert(generique)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+    internal fun loadingCPDData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val conditionPrescription: ConditionPrescription = ConditionPrescription()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    conditionPrescription.codeCis = array.get(0)
+                    conditionPrescription.condition = array.get(1)
+
+                    MedicDatabase.getInstance(getApplication()).conditionPrescriptionDao().insert(conditionPrescription)
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+    }
+
+    internal fun loadingInfoImportantesData(isr: InputStreamReader) {
+        Timber.i("loadingData")
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                val infoImportantes: InfoImportantes = InfoImportantes()
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                    //Timber.i(line)
+                    val array = line.split("\t")
+
+                    infoImportantes.codeCis = array.get(0)
+                    infoImportantes.dateDeb = array.get(1)
+                    infoImportantes.dateFin = array.get(2)
+                    infoImportantes.textAndLink = array.get(3)
+
+                    MedicDatabase.getInstance(getApplication()).infoImportantDao().insert(infoImportantes)
                 }
             } catch (e: IOException) {
                 Timber.i("error: ${e.message}")
