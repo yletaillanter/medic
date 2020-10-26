@@ -31,8 +31,7 @@ class DetailViewPagerActivity : AppCompatActivity() {
         ASMR
     )
 
-    private val TAG = "DetailViewPagerActivity"
-    lateinit var currentMedicament: Medicament
+    private lateinit var currentMedicament: Medicament
     lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +45,7 @@ class DetailViewPagerActivity : AppCompatActivity() {
         val model = ViewModelProvider.AndroidViewModelFactory(this.application).create(DetailViewModel::class.java)
 
         //Get the medic
-        val id:Long = getIntent().getLongExtra("id", 0L)
-        currentMedicament = model.getByCis(id)
+        currentMedicament = model.getByCis(getIntent().getStringExtra("cis"))
 
         // viewpager adapter
         val localAdapter = ViewPagerAdapter()

@@ -8,9 +8,9 @@ import androidx.room.*
 @Entity(tableName = "medicament")
 data class Medicament (
 
-    @PrimaryKey(autoGenerate = true) var id: Long = 0L,
+    //@PrimaryKey(autoGenerate = true) var id: Long = 0L,
 
-    @ColumnInfo(name = "code_cis") var codeCis: String = "",
+    @PrimaryKey @ColumnInfo(name = "code_cis") var codeCis: String = "",
     @ColumnInfo(name = "date_amm") var dateAmm: String = "",
     @ColumnInfo(name = "denomination") var denomination: String = "",
     @ColumnInfo(name = "etat_commer") var etatCommer: String = "",

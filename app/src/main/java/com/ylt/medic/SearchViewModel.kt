@@ -30,11 +30,9 @@ import java.nio.channels.Selector.open
  */
 class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
-    val TAG = "SearchViewModel.class"
-
     // Adresse du serveur
-    private val BASE_URL = "http://10.0.2.2:3000/"
-    //private val BASE_URL = "http://192.168.1.10:3000/"
+    //private val BASE_URL = "http://10.0.2.2:3000/"
+    private val BASE_URL = "http://192.168.1.10:3000/"
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
@@ -100,16 +98,16 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         // puis le medicament
         return MedicDatabase.getInstance(getApplication()).medicamentDao().insert(medic)
     }
-    internal fun getExistingByCisAndDenomination(cis: String?, denomination: String?): Long {
-        // TODO construct full medic
-        return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdOfExistingMedic(cis!!, denomination!!)
-    }
 
     // Construct Full Medic From database
     internal fun getIdByCis(cis: String): Long {
-        return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdByCis(cis)
+        return 18L
+        //return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdByCis(cis)
     }
 
+    internal fun searchMedicByDenomination(query: String): List<Medicament> {
+        return MedicDatabase.getInstance(getApplication()).medicamentDao().searchMedicByDenomination(query)
+    }
 
     fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
         val result: ArrayList<Medicament> = ArrayList()
@@ -271,6 +269,38 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
     }
 
+    internal fun loadingDataVersion(isr: InputStreamReader):String {
+
+        var version: String = "0"
+
+        val job = Job()
+        CoroutineScope(job).launch {
+            var reader : BufferedReader? = null
+            try {
+                reader = BufferedReader(isr);
+
+                // do reading, usually loop until end of file reading
+                var mLine:String
+                for (line in reader.lines()) {
+                     version = line
+                }
+            } catch (e: IOException) {
+                Timber.i("error: ${e.message}")
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (e: IOException) {
+                        //log the exception
+                    }
+                }
+            }
+        }
+
+        return version
+    }
+
     internal fun loadingCisBdpmData(isr: InputStreamReader) {
         Timber.i("loadingData")
 
@@ -300,7 +330,9 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
                     medic.titulaire = array.get(10)
                     medic.survRenforcee = array.get(11)
 
-                    insertFullMedic(medic)
+                    insertOrUpdate(medic)
+
+                    //insertFullMedic(medic)
                 }
             } catch (e: IOException) {
                 Timber.i("error: ${e.message}")
@@ -597,6 +629,14 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    fun insertOrUpdate(medicament: Medicament) {
+        val medic:Medicament  = MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicByCis(medicament.codeCis)
+        if (medic == null)
+            MedicDatabase.getInstance(getApplication()).medicamentDao().insert((medicament))
+        else
+            MedicDatabase.getInstance(getApplication()).medicamentDao().update((medicament))
     }
 }
 

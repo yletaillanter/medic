@@ -18,19 +18,10 @@ interface MedicamentDao {
     @Query("SELECT * FROM medicament WHERE code_cis  = (:code_cis)")
     fun getMedicByCis(code_cis: String): Medicament
 
-    @Query("SELECT id FROM medicament WHERE code_cis  = (:code_cis)")
-    fun getIdByCis(code_cis: String): Long
+    @Update
+    fun update(medicament: Medicament)
 
-    @Query("SELECT * FROM medicament WHERE id  = (:id)")
-    fun getMedicById(id: Long): Medicament
-
-    @Query("SELECT id FROM medicament WHERE code_cis  = (:code_cis) AND denomination  = (:denomination)")
-    fun getIdOfExistingMedic(code_cis: String, denomination: String): Long
-
-    @Query("UPDATE medicament SET isBookmarked = (:state) WHERE id = (:id)")
-    fun setAsBookmarkedById(id: Long, state: Boolean)
-
-    @Insert(onConflict = REPLACE)
+    @Insert
     fun insert(vararg medic: Medicament): List<Long>
 
     @Delete
@@ -38,4 +29,10 @@ interface MedicamentDao {
 
     @Query("DELETE FROM medicament")
     fun deleteTable()
+
+    @Query("SELECT * FROM medicament WHERE denomination LIKE '%' || :query || '%'")
+    fun searchMedicByDenomination(query: String): List<Medicament>
+
+
+
 }

@@ -4,6 +4,7 @@ import android.view.Menu
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -46,6 +47,10 @@ class SearchActivity : BaseActivity(), ClickListener {
         Timber.i("onCreate")
 
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SearchViewModel::class.java)
+
+        checkDatabaseVersion()
+
+        /*
         model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
         model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
         model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"), "ISO-8859-1"))
@@ -53,8 +58,22 @@ class SearchActivity : BaseActivity(), ClickListener {
         model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
         model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
         model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
+        */
 
         initLayoutElement()
+    }
+
+    private fun checkDatabaseVersion() {
+        // TODO : https://developer.android.com/training/data-storage/shared-preferences
+
+        val sharedPref: SharedPreferences = getSharedPreferences("version", 0)
+        val version = model.loadingDataVersion(InputStreamReader(assets.open("version.txt"), "ISO-8859-1"))
+
+        if (sharedPref.getString("version", "0") != version) {
+            Timber.i("version diff")
+        } else {
+            Timber.i("version identique")
+        }
 
     }
 
@@ -116,19 +135,19 @@ class SearchActivity : BaseActivity(), ClickListener {
 
         // check if medic already exists
         // TODO invalid du cache
-        var id = model.getIdByCis(data[position].codeCis)
+        //var id = model.getIdByCis(data[position].codeCis)
 
         // if medic not in cache
-        if (id == 0L ) {
-            Timber.d( "caching medic in DB")
+        //if (id == 0L ) {
+            //Timber.d( "caching medic in DB")
             // insert du medicament
-            insertMedicByCis(data[position].codeCis)
-        } else {
-            Timber.d( "getting medic from cache! id: $id")
-            val intent: Intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
-        }
+          //  insertMedicByCis(data[position].codeCis)
+        //} else {
+            //Timber.d( "getting medic from cache! id: $id")
+        val intent: Intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
+        intent.putExtra("cis", data[position].codeCis)
+        startActivity(intent)
+        //}
     }
 
     // empty database
@@ -137,13 +156,10 @@ class SearchActivity : BaseActivity(), ClickListener {
     }
 
     fun startSearching(query:String) {
-        compositeDisposable.add(
-            model.searchMedicByName(query).subscribe { response ->
-                this.data = model.arrayToArrayList(response)
-                adapter.replace(this.data)
-            }
-        )
+        this.data = ArrayList(model.searchMedicByDenomination(query))
+        adapter.replace(data)
     }
+
     fun getByCip13(cip:String) {
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->

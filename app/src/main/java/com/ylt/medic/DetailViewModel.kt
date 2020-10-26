@@ -5,16 +5,16 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.ylt.medic.database.MedicDatabase
 import com.ylt.medic.database.model.Medicament
+import timber.log.Timber
 
 
 /**
  * Created by yoannlt on 08/07/2017.
  */
 class DetailViewModel(application:Application) : AndroidViewModel(application) {
-    internal fun getByCis(id: Long): Medicament {
-        Log.d("ViewModel", "medic id: $id")
+    internal fun getByCis(cis: String): Medicament {
 
-        var resultMedic: Medicament =  MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicById(id)
+        var resultMedic: Medicament =  MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicByCis(cis)
 
         resultMedic.ASMRs = MedicDatabase.getInstance(getApplication()).asmrDao().getAsmrByCis(resultMedic.codeCis)
         resultMedic.compos = MedicDatabase.getInstance(getApplication()).compoDao().getCompoByCis(resultMedic.codeCis)
@@ -27,11 +27,10 @@ class DetailViewModel(application:Application) : AndroidViewModel(application) {
         return resultMedic
     }
 
-    internal fun getById(id: Long?): Medicament {
-        return MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicById(id!!)
-    }
 
+    /*
     internal fun setBookmarked(id: Long?, state: Boolean?) {
         MedicDatabase.getInstance(getApplication()).medicamentDao().setAsBookmarkedById(id!!, state!!)
     }
+     */
 }

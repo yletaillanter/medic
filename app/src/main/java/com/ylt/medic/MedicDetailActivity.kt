@@ -33,7 +33,7 @@ class MedicDetailActivity : AppCompatActivity() {
 
         //Get the medic
         val id:Long = getIntent().getLongExtra("id", 0L)
-        currentMedicament = model.getByCis(id)
+        currentMedicament = model.getByCis("55555")
         Timber.i( "detailMedic: $currentMedicament")
 
         initViews()
