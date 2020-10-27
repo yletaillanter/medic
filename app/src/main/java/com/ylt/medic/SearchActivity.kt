@@ -1,31 +1,32 @@
 package com.ylt.medic
 
-import android.view.Menu
+import android.app.ProgressDialog
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
-import com.ylt.medic.database.model.*
+import com.ylt.medic.database.model.Medicament
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.GlobalScope
+import kotlinx.android.synthetic.main.custom_dialog.*
+import kotlinx.android.synthetic.main.custom_dialog.view.*
 import timber.log.Timber
-import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
-import kotlin.collections.ArrayList
 
 
 /**
@@ -50,16 +51,6 @@ class SearchActivity : BaseActivity(), ClickListener {
 
         checkDatabaseVersion()
 
-        /*
-        model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
-        model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
-        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"), "ISO-8859-1"))
-        model.loadingCPDData(InputStreamReader(assets.open("CIS_CPD_bdpm.txt"), "ISO-8859-1"))
-        model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
-        model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
-        model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
-        */
-
         initLayoutElement()
     }
 
@@ -67,14 +58,57 @@ class SearchActivity : BaseActivity(), ClickListener {
         // TODO : https://developer.android.com/training/data-storage/shared-preferences
 
         val sharedPref: SharedPreferences = getSharedPreferences("version", 0)
-        val version = model.loadingDataVersion(InputStreamReader(assets.open("version.txt"), "ISO-8859-1"))
+        val versionSP = sharedPref.getString("version", "0")
+        Timber.i("versionSP: $versionSP")
+        val version = model.loadingDataVersion(
+            InputStreamReader(
+                assets.open("version.txt"),
+                "ISO-8859-1"
+            )
+        )
+        Timber.i("version file: $version")
 
-        if (sharedPref.getString("version", "0") != version) {
+        val dialog = showProgressDialog(this, "Chargement de la base de données : Merci de patienter. Cette opération peut prendre plusieurs minutes.")
+
+        if (versionSP == "0") {
+            Timber.i("init")
+            //loadData()
+            sharedPref.edit().putString("version", version).apply()
+        } else if (versionSP != version) {
             Timber.i("version diff")
+            //updateData()
+            sharedPref.edit().putString("version", version).apply()
         } else {
-            Timber.i("version identique")
+            // Do nothing
+            Timber.i("Database is up-to-date")
+            //sharedPref.edit().putString("version", "0").apply()
         }
+    }
 
+    private fun loadData() {
+        val dialog = showProgressDialog(this, "Chargement de la base de données : Merci de patienter. Cette opération peut prendre plusieurs minutes.")
+        //val dialog: ProgressDialog = ProgressDialog.show(this, "Chargement de la base de données", "Merci de patienter sans fermer l'application. Cette opération peut prendre plusieurs minutes.", true)
+        model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"),"ISO-8859-1"))
+        model.loadingCPDData(InputStreamReader(assets.open("CIS_CPD_bdpm.txt"), "ISO-8859-1"))
+        model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
+        model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
+        model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
+        //dialog.dismiss()
+    }
+
+    private fun updateData() {
+        model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
+
+        deleteAll()
+        // replace existing data
+        model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
+        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"),"ISO-8859-1"))
+        model.loadingCPDData(InputStreamReader(assets.open("CIS_CPD_bdpm.txt"), "ISO-8859-1"))
+        model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
+        model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
+        model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
     }
 
     override val contentViewId: Int
@@ -90,7 +124,7 @@ class SearchActivity : BaseActivity(), ClickListener {
         val searchView = menu.findItem(R.id.search).actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
 
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
                 // Do nothing
                 return false
@@ -105,6 +139,25 @@ class SearchActivity : BaseActivity(), ClickListener {
             }
         })
         return true;
+    }
+
+    fun getAlertDialog(context: Context, layout: Int, setCancellationOnTouchOutside: Boolean): AlertDialog {
+        Timber.i("getAlertDialog")
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        val customLayout: View = layoutInflater.inflate(layout, null)
+        val lottieAnim: LottieAnimationView = customLayout.animationView
+        builder.setView(customLayout)
+        val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
+        return dialog
+    }
+
+    fun showProgressDialog(context: Context, message: String): AlertDialog {
+        Timber.i("showProgressDialog")
+        val dialog = getAlertDialog(context, R.layout.custom_dialog, setCancellationOnTouchOutside = false)
+        dialog.show()
+        dialog.text_progress_bar.text = message
+        return dialog
     }
 
     private fun initLayoutElement() {
@@ -155,12 +208,16 @@ class SearchActivity : BaseActivity(), ClickListener {
         model.deleteTableContent()
     }
 
-    fun startSearching(query:String) {
+    private fun deleteAllButMedicament() {
+        model.deleteTableContentButMedicament()
+    }
+
+    fun startSearching(query: String) {
         this.data = ArrayList(model.searchMedicByDenomination(query))
         adapter.replace(data)
     }
 
-    fun getByCip13(cip:String) {
+    fun getByCip13(cip: String) {
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
                 this.data = model.arrayToArrayList(response)
@@ -183,7 +240,7 @@ class SearchActivity : BaseActivity(), ClickListener {
     private fun getMedicByCis(cis: String){
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Timber.i( "${model.arrayToArrayList(response)[0].toString()}")
+                Timber.i("${model.arrayToArrayList(response)[0].toString()}")
             }
         )
     }
@@ -202,7 +259,11 @@ class SearchActivity : BaseActivity(), ClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        val result: IntentResult = IntentIntegrator.parseActivityResult(
+            requestCode,
+            resultCode,
+            data
+        );
         if(result.getContents() == null) {
             medicNotFound()
         } else {

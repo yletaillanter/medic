@@ -1,9 +1,7 @@
 package com.ylt.medic
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,10 +10,7 @@ import com.ylt.medic.database.MedicDatabase
 import com.ylt.medic.database.model.*
 import com.ylt.medic.rest.InterfaceRest
 import com.ylt.medic.rest.responses.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,7 +18,6 @@ import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
-import java.nio.channels.Selector.open
 
 /**
  * Created by yoannlt on 08/07/2017.
@@ -269,21 +263,29 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
     }
 
-    internal fun loadingDataVersion(isr: InputStreamReader):String {
+    internal fun deleteTableContentButMedicament() {
+        MedicDatabase.getInstance(getApplication()).asmrDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).compoDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).conditionPrescriptionDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).generiqueDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).infoImportantDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).presentationDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
+    }
+
+    internal fun loadingDataVersion(isr: InputStreamReader): String {
 
         var version: String = "0"
 
-        val job = Job()
-        CoroutineScope(job).launch {
+        runBlocking {
             var reader : BufferedReader? = null
             try {
                 reader = BufferedReader(isr);
 
                 // do reading, usually loop until end of file reading
                 var mLine:String
-                for (line in reader.lines()) {
-                     version = line
-                }
+                for (line in reader.lines())
+                    version = line
             } catch (e: IOException) {
                 Timber.i("error: ${e.message}")
                 //log the exception
@@ -297,7 +299,6 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
                 }
             }
         }
-
         return version
     }
 
@@ -330,7 +331,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
                     medic.titulaire = array.get(10)
                     medic.survRenforcee = array.get(11)
 
-                    insertOrUpdate(medic)
+                    insertOrUpdateMedic(medic)
 
                     //insertFullMedic(medic)
                 }
@@ -631,12 +632,16 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         }
     }
 
-    fun insertOrUpdate(medicament: Medicament) {
+    fun insertOrUpdateMedic(medicament: Medicament) {
         val medic:Medicament  = MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicByCis(medicament.codeCis)
-        if (medic == null)
+
+        if (medic == null) {
+            Timber.i("ylt-test insert medic")
             MedicDatabase.getInstance(getApplication()).medicamentDao().insert((medicament))
-        else
+        } else {
+            Timber.i("ylt-test update medic")
             MedicDatabase.getInstance(getApplication()).medicamentDao().update((medicament))
+        }
     }
 }
 
