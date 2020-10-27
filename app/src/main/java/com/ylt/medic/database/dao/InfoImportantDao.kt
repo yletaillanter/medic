@@ -1,6 +1,7 @@
 package com.ylt.medic.database.dao
 
 import androidx.room.*
+import com.ylt.medic.database.model.ConditionPrescription
 import com.ylt.medic.database.model.InfoImportantes
 
 @Dao
@@ -12,8 +13,11 @@ interface InfoImportantDao {
     @Query("SELECT * FROM info_importantes WHERE code_cis = :codeCis")
     fun getInfoImportantesByCis(codeCis: String): List<InfoImportantes>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg infoImportantes: InfoImportantes)
+
+    @Update
+    fun update(infoImportantes: InfoImportantes)
 
     @Delete
     fun delete(infoImportantes: InfoImportantes)

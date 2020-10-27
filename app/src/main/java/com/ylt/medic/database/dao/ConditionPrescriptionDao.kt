@@ -1,6 +1,7 @@
 package com.ylt.medic.database.dao
 
 import androidx.room.*
+import com.ylt.medic.database.model.Compo
 import com.ylt.medic.database.model.ConditionPrescription
 
 @Dao
@@ -12,8 +13,11 @@ interface ConditionPrescriptionDao {
     @Query("SELECT * FROM condition_prescription WHERE code_cis = :codeCis")
     fun getConditionPrescriptionByCis(codeCis: String): List<ConditionPrescription>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg conditionPrescritption: ConditionPrescription)
+
+    @Update
+    fun update(conditionPrescritption: ConditionPrescription)
 
     @Delete
     fun delete(conditionPrescritption: ConditionPrescription)

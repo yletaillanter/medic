@@ -21,7 +21,7 @@ interface MedicamentDao {
     @Update
     fun update(medicament: Medicament)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg medic: Medicament): List<Long>
 
     @Delete

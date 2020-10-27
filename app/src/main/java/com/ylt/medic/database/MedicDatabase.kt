@@ -11,7 +11,7 @@ import com.ylt.medic.database.model.*
 /**
  * Created by yoannlt on 14/06/2017.
  */
-@Database(entities = [ASMR::class, Compo::class, ConditionPrescription::class, Generique::class, InfoImportantes::class, Medicament::class, Presentation::class, SMR::class], version = 5, exportSchema = false)
+@Database(entities = [ASMR::class, Compo::class, ConditionPrescription::class, Generique::class, InfoImportantes::class, Medicament::class, Presentation::class, SMR::class], version = 6, exportSchema = false)
 @TypeConverters(ConverterDate::class)
 abstract class MedicDatabase : RoomDatabase() {
     abstract fun asmrDao(): AsmrDao
