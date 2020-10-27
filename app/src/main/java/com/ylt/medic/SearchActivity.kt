@@ -1,6 +1,5 @@
 package com.ylt.medic
 
-import android.app.ProgressDialog
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -16,7 +15,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.ylt.medic.adapter.AdapterMedicSearch
@@ -24,7 +22,6 @@ import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.Medicament
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.custom_dialog.*
-import kotlinx.android.synthetic.main.custom_dialog.view.*
 import timber.log.Timber
 import java.io.InputStreamReader
 
@@ -61,10 +58,10 @@ class SearchActivity : BaseActivity(), ClickListener {
         val versionSP = sharedPref.getString("version", "0")
         Timber.i("versionSP: $versionSP")
         val version = model.loadingDataVersion(
-            InputStreamReader(
-                assets.open("version.txt"),
-                "ISO-8859-1"
-            )
+                InputStreamReader(
+                        assets.open("version.txt"),
+                        "ISO-8859-1"
+                )
         )
         Timber.i("version file: $version")
 
@@ -72,11 +69,11 @@ class SearchActivity : BaseActivity(), ClickListener {
 
         if (versionSP == "0") {
             Timber.i("init")
-            //loadData()
+            loadData()
             sharedPref.edit().putString("version", version).apply()
         } else if (versionSP != version) {
             Timber.i("version diff")
-            //updateData()
+            updateData()
             sharedPref.edit().putString("version", version).apply()
         } else {
             // Do nothing
@@ -86,29 +83,31 @@ class SearchActivity : BaseActivity(), ClickListener {
     }
 
     private fun loadData() {
-        val dialog = showProgressDialog(this, "Chargement de la base de données : Merci de patienter. Cette opération peut prendre plusieurs minutes.")
-        //val dialog: ProgressDialog = ProgressDialog.show(this, "Chargement de la base de données", "Merci de patienter sans fermer l'application. Cette opération peut prendre plusieurs minutes.", true)
+
+        val dialog = showProgressDialog(this, "Mise à jour des données. Merci de patienter. Cette opération peut prendre plusieurs minutes.")
         model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
         model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
-        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"),"ISO-8859-1"))
+        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"), "ISO-8859-1"))
         model.loadingCPDData(InputStreamReader(assets.open("CIS_CPD_bdpm.txt"), "ISO-8859-1"))
         model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
         model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
         model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
-        //dialog.dismiss()
+        dialog.dismiss()
     }
 
     private fun updateData() {
-        model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
+        val dialog = showProgressDialog(this, "Mise à jour des données. Merci de patienter. Cette opération peut prendre plusieurs minutes.")
 
+        model.loadingCisBdpmData(InputStreamReader(assets.open("CIS_bdpm.txt"), "ISO-8859-1"))
         deleteAll()
         // replace existing data
         model.loadingCisCipData(InputStreamReader(assets.open("CIS_CIP_bdpm.txt"), "ISO-8859-1"))
-        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"),"ISO-8859-1"))
+        model.loadingCisCompoData(InputStreamReader(assets.open("CIS_COMPO_bdpm.txt"), "ISO-8859-1"))
         model.loadingCPDData(InputStreamReader(assets.open("CIS_CPD_bdpm.txt"), "ISO-8859-1"))
         model.loadingGenerData(InputStreamReader(assets.open("CIS_GENER_bdpm.txt"), "ISO-8859-1"))
         model.loadingASMRData(InputStreamReader(assets.open("CIS_HAS_ASMR_bdpm.txt"), "ISO-8859-1"))
         model.loadingSMRData(InputStreamReader(assets.open("CIS_HAS_SMR_bdpm.txt"), "ISO-8859-1"))
+        dialog.dismiss()
     }
 
     override val contentViewId: Int
@@ -145,10 +144,11 @@ class SearchActivity : BaseActivity(), ClickListener {
         Timber.i("getAlertDialog")
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         val customLayout: View = layoutInflater.inflate(layout, null)
-        val lottieAnim: LottieAnimationView = customLayout.animationView
+        //val lottieAnim: LottieAnimationView = customLayout.animationView
         builder.setView(customLayout)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
+        dialog.setCancelable(setCancellationOnTouchOutside);
         return dialog
     }
 
@@ -219,29 +219,29 @@ class SearchActivity : BaseActivity(), ClickListener {
 
     fun getByCip13(cip: String) {
         compositeDisposable.add(
-            model.getMedicByCip13(cip).subscribe { response ->
-                this.data = model.arrayToArrayList(response)
-                adapter.replace(this.data)
-            }
+                model.getMedicByCip13(cip).subscribe { response ->
+                    this.data = model.arrayToArrayList(response)
+                    adapter.replace(this.data)
+                }
         )
     }
     private fun insertMedicByCis(cis: String) {
         compositeDisposable.add(
-            model.getMedicByCis(cis).subscribe { response ->
-                var id = model.insertFullMedic(model.arrayToArrayList(response)[0])
+                model.getMedicByCis(cis).subscribe { response ->
+                    var id = model.insertFullMedic(model.arrayToArrayList(response)[0])
 
-                //val intent = Intent(applicationContext, MedicDetailActivity::class.java)
-                val intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
-                intent.putExtra("id", id[0])
-                startActivity(intent)
-            }
+                    //val intent = Intent(applicationContext, MedicDetailActivity::class.java)
+                    val intent = Intent(applicationContext, DetailViewPagerActivity::class.java)
+                    intent.putExtra("id", id[0])
+                    startActivity(intent)
+                }
         )
     }
     private fun getMedicByCis(cis: String){
         compositeDisposable.add(
-            model.getMedicByCis(cis).subscribe { response ->
-                Timber.i("${model.arrayToArrayList(response)[0].toString()}")
-            }
+                model.getMedicByCis(cis).subscribe { response ->
+                    Timber.i("${model.arrayToArrayList(response)[0].toString()}")
+                }
         )
     }
 
@@ -260,9 +260,9 @@ class SearchActivity : BaseActivity(), ClickListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         val result: IntentResult = IntentIntegrator.parseActivityResult(
-            requestCode,
-            resultCode,
-            data
+                requestCode,
+                resultCode,
+                data
         );
         if(result.getContents() == null) {
             medicNotFound()
