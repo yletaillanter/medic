@@ -3,6 +3,7 @@ package com.ylt.medic.adapter
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ylt.medic.adapter.ViewPagerHolder
 import com.ylt.medic.database.model.Medicament
 
 class ViewPagerAdapter(var context: Context?) : RecyclerView.Adapter<ViewPagerHolder>() {

@@ -137,8 +137,7 @@ class SearchFragment : Fragment(), ClickListener {
         Timber.i("Start searching: $query")
         compositeDisposable.add(
             model.searchMedicByName(query)
-                .doOnError{ error ->
-                    Toast.makeText(context, "Impossible de faire la recherche, vérifier votre connexion", Toast.LENGTH_LONG).show()
+                .doOnError{Toast.makeText(context, "Impossible de faire la recherche, vérifier votre connexion", Toast.LENGTH_LONG).show()
                 }.subscribe { response ->
                     this.data = model.arrayToArrayList(response)
                     model.searchResult = this.data

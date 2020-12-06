@@ -68,7 +68,7 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
         }
 
         override fun onClick(view: View) {
-                clickListener.itemClicked(view, adapterPosition, AdapterMedicSearch::class.java.getSimpleName())
+                clickListener.itemClicked(view, bindingAdapterPosition, AdapterMedicSearch::class.java.getSimpleName())
         }
     }
 

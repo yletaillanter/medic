@@ -53,7 +53,7 @@ class FrontPageCardView @JvmOverloads constructor(
             rembRate!!.text = medicament!!.presentations[0].txRemboursement
         }
         buttonNotice.setOnClickListener {
-            it?.findNavController()?.navigate(DetailedFragmentDirections.actionNavigationDetailedToNoticeFragment(medicament!!.codeCis, medicament!!.denomination!!.split(",")[0]))
+            it?.findNavController()?.navigate(DetailedFragmentDirections.actionNavigationDetailedToNoticeFragment(medicament!!.codeCis, medicament!!.denomination.split(",")[0]))
         }
     }
 }
