@@ -39,10 +39,10 @@ class SMRCardView @JvmOverloads constructor(
         codeDossierHas = findViewById(R.id.code_dossier_has)
 
         // Set text to views elements
-        libelleSmr!!.setText(smr?.libelleSmr)
-        valeurSmr!!.setText(smr?.valeurSmr)
-        motifEvalSmr!!.setText(smr?.motifEval)
-        dateAvisSmr!!.setText(smr?.dateAvisCommTransp)
-        codeDossierHas!!.setText(smr?.codeDossierHas)
+        libelleSmr!!.text = smr?.libelleSmr
+        valeurSmr!!.text = smr?.valeurSmr
+        motifEvalSmr!!.text = smr?.motifEval
+        dateAvisSmr!!.text = smr?.dateAvisCommTransp
+        codeDossierHas!!.text = smr?.codeDossierHas
     }
 }

@@ -18,7 +18,7 @@ class MyPagerAdapter: PagerAdapter() {
 
     override fun instantiateItem(collection: View, position: Int): Any {
 
-        val inflater = collection.getContext()
+        val inflater = collection.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         var resId = 0

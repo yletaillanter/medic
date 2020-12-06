@@ -1,10 +1,11 @@
 package com.ylt.medic.adapter
 
+import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ylt.medic.database.model.Medicament
 
-class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerHolder>() {
+class ViewPagerAdapter(var context: Context?) : RecyclerView.Adapter<ViewPagerHolder>() {
     lateinit var medic: Medicament
     var list: List<String> = listOf()
 
@@ -12,7 +13,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerHolder>() {
         return ViewPagerHolder(parent)
     }
     override fun onBindViewHolder(holder: ViewPagerHolder, position: Int) {
-        holder.bind(medic, list[position])
+        holder.bind(medic, list[position], context)
     }
     fun setMedic(list: List<String>, medic: Medicament) {
         this.list = list

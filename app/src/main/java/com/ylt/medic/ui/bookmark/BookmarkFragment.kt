@@ -14,7 +14,6 @@ import com.ylt.medic.R
 import com.ylt.medic.adapter.AdapterMedicSearch
 import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.Medicament
-import com.ylt.medic.ui.search.SearchFragmentDirections
 import com.ylt.medic.ui.search.SearchViewModel
 import timber.log.Timber
 
@@ -58,7 +57,7 @@ class BookmarkFragment : Fragment(), ClickListener {
 
     override fun itemClicked(view: View, position: Int, recycler: String) {
         val id = model.getIdByCis(data[position].codeCis)
-        view?.findNavController()?.navigate(BookmarkFragmentDirections.actionNavigationBookmarkToNavigationDetailed(id.toLong()))
+        view.findNavController().navigate(BookmarkFragmentDirections.actionNavigationBookmarkToNavigationDetailed(id.toLong(), data[position].denomination.split(",")[0]))
     }
 
 }

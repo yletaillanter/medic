@@ -24,7 +24,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
     // Adresse du serveur
     //private val BASE_URL = "http://10.0.2.2:3000/"
-    private val BASE_URL = "http://192.168.1.10:3000/"
+    //private val BASE_URL = "http://192.168.1.12:3000/"
+    private val BASE_URL = "http://136.244.114.63:3000/"
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
@@ -35,6 +36,9 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
     private val interfaceRest: InterfaceRest = retrofit.create(InterfaceRest::class.java)
 
+    var searchQuery: String = ""
+    var searchResult: ArrayList<Medicament> = arrayListOf<Medicament>()
+
     /* REST CALL */
     fun getMedicByCis(cis: String): Flowable<Array<MedicamentResponse>> {
         return interfaceRest.getMedicByCis(cis)
@@ -44,8 +48,11 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     fun searchMedicByName(query: String): Flowable<Array<MedicamentResponse>> {
         return interfaceRest.searchMedicByName(query)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { it -> Timber.e("error onsearchMedicByName $it") }
+                .onErrorReturn {emptyArray()}
     }
+
     fun getMedicByCip13(cip: String): Flowable<Array<MedicamentResponse>> {
         return interfaceRest.getMedicByCip13(cip)
                 .subscribeOn(Schedulers.io())
@@ -91,7 +98,6 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return MedicDatabase.getInstance(getApplication()).medicamentDao().insert(medic)
     }
     internal fun getExistingByCisAndDenomination(cis: String?, denomination: String?): Long {
-        // TODO construct full medic
         return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdOfExistingMedic(cis!!, denomination!!)
     }
 

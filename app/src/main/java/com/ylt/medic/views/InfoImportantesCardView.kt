@@ -38,9 +38,9 @@ class InfoImportantesCardView @JvmOverloads constructor(
         info = findViewById(R.id.info)
 
         // Set text to views elements
-        dateDebInfo!!.setText(infoImportantes?.dateDeb)
-        dateFinInfo!!.setText(infoImportantes?.dateFin)
-        info!!.setText(infoImportantes?.textAndLink)
+        dateDebInfo!!.text = infoImportantes?.dateDeb
+        dateFinInfo!!.text = infoImportantes?.dateFin
+        info!!.text = infoImportantes?.textAndLink
     }
 
 

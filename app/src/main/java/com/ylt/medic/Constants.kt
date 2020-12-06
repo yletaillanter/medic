@@ -7,8 +7,9 @@ class Constants {
         const val GENERIQUES = "Génériques"
         const val COMPOSITION = "Composition"
         const val CONDI_PRESCRIPTION = "Conditions de prescription"
-        const val INFO_IMPORTANTES = "Informations importantes"
-        const val SMR = "Smr"
-        const val ASMR = "Asmr"
+        const val AUTRES = "Autres"
+        //const val INFO_IMPORTANTES = "Informations importantes"
+        //const val SMR = "Smr"
+        //const val ASMR = "Asmr"
     }
 }

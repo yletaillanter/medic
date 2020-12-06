@@ -30,6 +30,6 @@ class PrescriptionCardView @JvmOverloads constructor(
         conditionPrescritextView = findViewById(R.id.condition_prescri)
 
         // Set text to views elements
-        conditionPrescritextView!!.setText(conditionPrescri?.condition)
+        conditionPrescritextView!!.text = conditionPrescri?.condition
     }
 }

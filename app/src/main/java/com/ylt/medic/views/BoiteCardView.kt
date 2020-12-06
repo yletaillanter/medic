@@ -43,11 +43,11 @@ class BoiteCardView @JvmOverloads constructor(
         indicDroitRemb = findViewById(R.id.indic_droit_remb)
 
         // Set text to views elements
-        libelle!!.setText(presentation?.libellePresentation)
-        statut!!.setText(presentation?.statutAdminPres)
-        dateDeclaCommer!!.setText(presentation?.dateDeclaCommer)
-        rembRate!!.setText(presentation?.txRemboursement)
-        price!!.setText("${presentation?.prixMedicEuro}€")
-        indicDroitRemb!!.setText(presentation?.indicDroitRemb)
+        libelle!!.text = presentation?.libellePresentation
+        statut!!.text = presentation?.statutAdminPres
+        dateDeclaCommer!!.text = presentation?.dateDeclaCommer
+        rembRate!!.text = presentation?.txRemboursement
+        price!!.text = "${presentation?.prixMedicEuro}€"
+        indicDroitRemb!!.text = presentation?.indicDroitRemb
     }
 }

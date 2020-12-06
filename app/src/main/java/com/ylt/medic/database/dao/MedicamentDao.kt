@@ -27,8 +27,8 @@ interface MedicamentDao {
     @Query("SELECT id FROM medicament WHERE code_cis  = (:code_cis) AND denomination  = (:denomination)")
     fun getIdOfExistingMedic(code_cis: String, denomination: String): Long
 
-    @Query("UPDATE medicament SET isBookmarked = (:state) WHERE id = (:id)")
-    fun setAsBookmarkedById(id: Long, state: Boolean)
+    @Query("UPDATE medicament SET isBookmarked = (:bookmarked) WHERE id = (:id)")
+    fun setAsBookmarkedById(id: Long, bookmarked: Boolean)
 
     @Insert(onConflict = REPLACE)
     fun insert(vararg medic: Medicament): List<Long>

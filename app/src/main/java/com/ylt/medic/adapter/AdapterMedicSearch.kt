@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ylt.medic.R
@@ -36,21 +37,33 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
         medoc = mDataset!!.get(position)
 
         // set view from medoc
-        holder.denomination!!.text = medoc!!.denomination;
-        holder.denomination!!.text = medoc!!.denomination;
+        holder.denomination.text = medoc!!.denomination.split(",")[0];
+        holder.formePharma.text = medoc!!.formePharma;
+
+        when(medoc!!.formePharma) {
+            "comprimé",
+            "comprimé pélliculé sécable",
+            "comprimé enrobé" -> holder.logoFormePharma.setImageResource(R.drawable.comprime)
+            "comprimé pélliculé" -> holder.logoFormePharma.setImageResource(R.drawable.comprime_pellicule)
+            "solution injectable" -> holder.logoFormePharma.setImageResource(R.drawable.seringue)
+            "gélule" -> holder.logoFormePharma.setImageResource(R.drawable.gelule)
+            "solution buvable" -> holder.logoFormePharma.setImageResource(R.drawable.drink)
+            "solution pour perfusion" -> holder.logoFormePharma.setImageResource(R.drawable.perfusion)
+            "sirop" -> holder.logoFormePharma.setImageResource(R.drawable.sirop)
+            "crème" -> holder.logoFormePharma.setImageResource(R.drawable.creme)
+            "suppositoire" -> holder.logoFormePharma.setImageResource(R.drawable.suppositoires)
+        }
 
         //setAnimation(holder.itemView, position)
     }
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
         // UI element (R.layout.card_annonce_demandeur)
-        internal var denomination: TextView? = null
-        internal var forme_pharma: TextView? = null
+        internal var denomination: TextView = v.findViewById(R.id.denomination) as TextView
+        internal var formePharma: TextView = v.findViewById(R.id.forme_pharma) as TextView
+        internal var logoFormePharma: ImageView = v.findViewById(R.id.logo_forme) as ImageView
 
         init {
-            denomination = v.findViewById(R.id.denomination) as TextView
-            forme_pharma = v.findViewById(R.id.forme_pharma) as TextView
-
             v.setOnClickListener(this)
         }
 
@@ -85,10 +98,6 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
 
     fun setContext(context: Context) {
         this.context = context;
-    }
-
-    fun getmDataset(): ArrayList<Medicament>? {
-        return mDataset
     }
 
     fun clear(){

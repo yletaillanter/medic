@@ -45,15 +45,15 @@ class FrontPageCardView @JvmOverloads constructor(
         buttonNotice = findViewById(R.id.button_notice)
 
         // Set text to views elements
-        denomination!!.setText(medicament?.denomination)
-        formePharma!!.setText(medicament?.formePharma)
-        voieAdmin!!.setText(medicament?.voieAdministration)
+        denomination!!.text = medicament?.denomination
+        formePharma!!.text = medicament?.formePharma
+        voieAdmin!!.text = medicament?.voieAdministration
         if (medicament!!.presentations.size > 0 ) {
-            price!!.setText("${medicament!!.presentations[0].prixMedicEuro}€")
-            rembRate!!.setText(medicament!!.presentations[0].txRemboursement)
+            price!!.text = "${medicament!!.presentations[0].prixMedicEuro}€"
+            rembRate!!.text = medicament!!.presentations[0].txRemboursement
         }
         buttonNotice.setOnClickListener {
-            it?.findNavController()?.navigate(DetailedFragmentDirections.actionNavigationDetailedToNoticeFragment(medicament!!.codeCis))
+            it?.findNavController()?.navigate(DetailedFragmentDirections.actionNavigationDetailedToNoticeFragment(medicament!!.codeCis, medicament!!.denomination!!.split(",")[0]))
         }
     }
 }
