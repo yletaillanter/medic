@@ -12,7 +12,6 @@ class AboutFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_about, container, false)
-        Timber.i("aboutFragment YLT-TEST")
 
         return root
     }
