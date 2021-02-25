@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ylt.medic.R
 import com.ylt.medic.database.model.Medicament
+import timber.log.Timber
 import java.util.ArrayList
 
 /**
@@ -91,6 +92,7 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
 
     //Mettre à jour la liste des données
     fun replace(data: ArrayList<Medicament>) {
+        Timber.i("adapter replace")
         this.mDataset!!.clear()
         this.mDataset = data
         this.notifyDataSetChanged()

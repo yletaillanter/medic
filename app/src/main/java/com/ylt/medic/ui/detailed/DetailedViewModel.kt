@@ -14,7 +14,7 @@ class DetailedViewModel(application:Application) : AndroidViewModel(application)
     internal fun getByCis(id: Long): Medicament {
         Timber.d("medic id: $id")
 
-        var resultMedic: Medicament =  MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicById(id)
+        val resultMedic: Medicament =  MedicDatabase.getInstance(getApplication()).medicamentDao().getMedicById(id)
 
         resultMedic.ASMRs = MedicDatabase.getInstance(getApplication()).asmrDao().getAsmrByCis(resultMedic.codeCis)
         resultMedic.compos = MedicDatabase.getInstance(getApplication()).compoDao().getCompoByCis(resultMedic.codeCis)
