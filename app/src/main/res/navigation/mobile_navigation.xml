@@ -39,14 +39,20 @@
     <fragment
         android:id="@+id/navigation_detailed"
         android:name="com.ylt.medic.ui.detailed.DetailedFragment"
-        android:label="detail medic"
+        android:label="{title}"
         tools:layout="@layout/fragment_detailed" >
         <argument
             android:name="id"
             app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
         <action
             android:id="@+id/action_navigation_detailed_to_noticeFragment"
             app:destination="@id/noticeFragment" />
+        <action
+            android:id="@+id/action_navigation_detailed_to_navigation_search"
+            app:destination="@id/navigation_search" />
     </fragment>
 
     <activity
@@ -58,10 +64,16 @@
     <fragment
         android:id="@+id/noticeFragment"
         android:name="com.ylt.medic.ui.notice.NoticeFragment"
-        android:label="fragment_notice"
+        android:label="{title}"
         tools:layout="@layout/fragment_notice" >
         <argument
             android:name="cis"
             app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noticeFragment_to_navigation_detailed"
+            app:destination="@id/navigation_detailed" />
     </fragment>
 </navigation>
