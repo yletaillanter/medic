@@ -2,6 +2,8 @@ package com.ylt.medic.ui.search
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,7 +11,6 @@ import io.reactivex.schedulers.Schedulers
 import com.ylt.medic.database.MedicDatabase
 import com.ylt.medic.database.model.*
 import com.ylt.medic.rest.InterfaceRest
-import com.ylt.medic.rest.responses.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,12 +21,9 @@ import timber.log.Timber
  */
 class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
-    val TAG = "SearchViewModel.class"
-
     // Adresse du serveur
     //private val BASE_URL = "http://10.0.2.2:3000/"
-    private val BASE_URL = "http://192.168.1.10:3000/"
-
+    private val BASE_URL = "http://192.168.1.17:9001/"
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
@@ -37,26 +35,27 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     private val interfaceRest: InterfaceRest = retrofit.create(InterfaceRest::class.java)
 
     var searchQuery: String = ""
-    var searchResult: ArrayList<Medicament> = arrayListOf<Medicament>()
 
     /* REST CALL */
-    fun getMedicByCis(cis: String): Flowable<Array<MedicamentResponse>> {
+    fun getMedicByCis(cis: String): Flowable<Medicament> {
         return interfaceRest.getMedicByCis(cis)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
     }
-    fun searchMedicByName(query: String): Flowable<Array<MedicamentResponse>> {
+
+    fun searchMedicByName(query: String): Flowable<ArrayList<Medicament>> {
         return interfaceRest.searchMedicByName(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { it -> Timber.e("error onsearchMedicByName $it") }
-                .onErrorReturn {emptyArray()}
+                .onErrorReturn {ArrayList()}
     }
 
-    fun getMedicByCip13(cip: String): Flowable<Array<MedicamentResponse>> {
+    fun getMedicByCip13(cip: String): Flowable<Medicament> {
         return interfaceRest.getMedicByCip13(cip)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { e -> Timber.e("error while getting medicByCip13: ${e.message}") };
     }
 
     /* DATABASE */
@@ -97,18 +96,21 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         // puis le medicament
         return MedicDatabase.getInstance(getApplication()).medicamentDao().insert(medic)
     }
-    internal fun getExistingByCisAndDenomination(cis: String?, denomination: String?): Long {
-        return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdOfExistingMedic(cis!!, denomination!!)
-    }
 
     // Construct Full Medic From database
     internal fun getIdByCis(cis: String): Long {
         return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdByCis(cis)
     }
 
-    fun arrayToArrayList(medocArray: Array<MedicamentResponse>): ArrayList<Medicament> {
+    fun arrayToArrayList(medocArray: Array<Medicament>): ArrayList<Medicament> {
         val result: ArrayList<Medicament> = ArrayList()
-        medocArray.forEach { medoc -> result.add(medicResponseToMedic(medoc))}
+        medocArray.forEach { medoc -> result.add(medoc)}
+        return result
+    }
+
+    fun medicToArrayList(medicament: Medicament): ArrayList<Medicament> {
+        val result: ArrayList<Medicament> = ArrayList()
+        result.add(medicament)
         return result
     }
 
@@ -116,7 +118,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return MedicDatabase.getInstance(getApplication()).medicamentDao().getBookmarked()
     }
 
-    fun medicResponseToMedic(medicResponse: MedicamentResponse): Medicament {
+    private fun medicResponseToMedic(medicResponse: Medicament): Medicament {
         val medicResult = Medicament()
 
         medicResult.codeCis = medicResponse.codeCis
@@ -142,7 +144,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return medicResult
     }
 
-    fun getArrayPresentation(presentations: List<PresentationResponse>): ArrayList<Presentation> {
+    private fun getArrayPresentation(presentations: List<Presentation>): ArrayList<Presentation> {
         val resultArray = ArrayList<Presentation>()
         val resultPresentation = Presentation()
 
@@ -163,7 +165,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return resultArray
     }
 
-    fun getArrayASMR(asmrs: List<AsmrResponse>): ArrayList<ASMR> {
+    private fun getArrayASMR(asmrs: List<ASMR>): ArrayList<ASMR> {
         val resultArray = ArrayList<ASMR>()
         val resultAsmr  = ASMR()
 
@@ -179,7 +181,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return resultArray
     }
 
-    fun getArrayCompo(compos: List<CompoResponse>): ArrayList<Compo> {
+    private fun getArrayCompo(compos: List<Compo>): ArrayList<Compo> {
         val resultArray = ArrayList<Compo>()
         val resultCompo  = Compo()
 
@@ -198,7 +200,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return resultArray
     }
 
-    fun getArrayConditionPrecription(condiPrescri: List<ConditionPrescriptionResponse>): ArrayList<ConditionPrescription> {
+    private fun getArrayConditionPrecription(condiPrescri: List<ConditionPrescription>): ArrayList<ConditionPrescription> {
         val resultArray = ArrayList<ConditionPrescription>()
         val resultConditionPrescription  = ConditionPrescription()
 
@@ -211,7 +213,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return resultArray
     }
 
-    fun getArrayGenerique(generiquesResponse: List<GeneriqueResponse>): ArrayList<Generique> {
+    private fun getArrayGenerique(generiquesResponse: List<Generique>): ArrayList<Generique> {
         val resultArray = ArrayList<Generique>()
         val resultGenerique  = Generique()
 
@@ -227,7 +229,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return resultArray
     }
 
-    fun getArrayInfoImportantes(infos: List<InfoImportantesResponse>): ArrayList<InfoImportantes> {
+    private fun getArrayInfoImportantes(infos: List<InfoImportantes>): ArrayList<InfoImportantes> {
         val resultArray = ArrayList<InfoImportantes>()
         val resultInfo  = InfoImportantes()
 
@@ -242,7 +244,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return resultArray
     }
 
-    fun getArraySMR(smrs: List<SmrResponse>): ArrayList<SMR> {
+    private fun getArraySMR(smrs: List<SMR>): ArrayList<SMR> {
         val resultArray = ArrayList<SMR>()
         val resultSMR  = SMR()
 
@@ -269,5 +271,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         MedicDatabase.getInstance(getApplication()).presentationDao().deleteTable();
         MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
     }
-}
 
+    private val _medic = MutableLiveData<ArrayList<Medicament>>()
+    val medic: LiveData<ArrayList<Medicament>>
+        get() = _medic
+}

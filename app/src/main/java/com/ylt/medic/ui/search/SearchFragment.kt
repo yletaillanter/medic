@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.ylt.medic.MainActivity
@@ -33,18 +34,23 @@ class SearchFragment : Fragment(), ClickListener {
 
     private lateinit var binding: FragmentSearchBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         Timber.i("onCreateView SearchFragment-cycle")
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
         initLayoutElement()
 
-
-        Timber.i("searchResult size: ${model.searchResult.size}")
-        //if (model.searchResult.size > 1)
-            //adapter.replace(model.searchResult);
-
         if (model.searchQuery != "")
             startSearching(model.searchQuery)
+
+        /*
+        model.medic.observe(viewLifecycleOwner, Observer {
+            result -> adapter.replace(result);
+        })
+         */
 
         return binding.root
     }
@@ -53,8 +59,7 @@ class SearchFragment : Fragment(), ClickListener {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true);
-        model = ViewModelProvider(this).get(SearchViewModel::class.java)
-        Timber.i("model: $model")
+        model = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -62,13 +67,19 @@ class SearchFragment : Fragment(), ClickListener {
         super.onCreateOptionsMenu(menu, inflater)
         Timber.i("onCreateOptionsMenu")
 
+        val mSearch = menu.findItem(R.id.search)
+        searchView = mSearch.actionView as SearchView
+
+        /*
         searchView = SearchView((context as MainActivity).supportActionBar!!.themedContext)
+
         menu.findItem(R.id.search).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
             actionView = searchView
         }
+        */
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
@@ -100,6 +111,7 @@ class SearchFragment : Fragment(), ClickListener {
         adapter.replace(data)
         adapter.setContext(context as MainActivity)
         adapter.setClickListener(this)
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.medocSearchRecyclerView.adapter = adapter
     }
 
@@ -113,11 +125,10 @@ class SearchFragment : Fragment(), ClickListener {
 
         // if medic not in cache
         if (id == 0L ) {
-            Timber.i("caching medic in DB")
+            Timber.i("Medicament not in db yet, cis: ${data[position].codeCis}")
             // insert du medicament
             insertMedicByCis(data[position].codeCis)
         } else {
-            Timber.i("getting medic from cache! id: $id")
             view.findNavController().navigate(
                 SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(
                     id, data[position].denomination.split(
@@ -135,14 +146,18 @@ class SearchFragment : Fragment(), ClickListener {
 
     fun startSearching(query: String) {
         Timber.i("Start searching: $query")
+        //model.searchMedicByNameTest2(query)
+
         compositeDisposable.add(
             model.searchMedicByName(query)
-                .doOnError{Toast.makeText(context, "Impossible de faire la recherche, vérifier votre connexion", Toast.LENGTH_LONG).show()
+                .doOnError {
+                    Toast.makeText(
+                        context,
+                        "Impossible de faire la recherche, vérifier votre connexion",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }.subscribe { response ->
-                    this.data = model.arrayToArrayList(response)
-                    model.searchResult = this.data
-                    Timber.i("searchResult size: ${model.searchResult.size}")
-                    adapter.replace(this.data)
+                    adapter.replace(response)
                 },
         )
     }
@@ -152,21 +167,20 @@ class SearchFragment : Fragment(), ClickListener {
 
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
-                Timber.i("response: $response")
-                this.data = model.arrayToArrayList(response)
-                Timber.i("format: $this.data")
+                Timber.d("response: $response")
+                this.data = model.medicToArrayList(response)
+                Timber.d("format: $this.data")
                 adapter.replace(this.data)
             }
         )
     }
 
     private fun insertMedicByCis(cis: String) {
-        Timber.i("insertMedicByCis: $cis")
+        Timber.d("insertMedicByCis: $cis")
 
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Timber.i("response: $response")
-                val medic = model.arrayToArrayList(response)[0]
+                val medic = response
                 var id = model.insertFullMedic(medic)
                 view?.findNavController()?.navigate(
                     SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(
@@ -181,19 +195,22 @@ class SearchFragment : Fragment(), ClickListener {
 
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                Timber.i("${model.arrayToArrayList(response)[0]}")
+                Timber.i("$response")
             }
         )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.barcode -> IntentIntegrator(activity).initiateScan();
+            //R.id.barcode -> IntentIntegrator(activity).initiateScan();
+            R.id.barcode -> IntentIntegrator.forSupportFragment(this).initiateScan();
+
         }
         return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Timber.i("onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
 
         val result: IntentResult = IntentIntegrator.parseActivityResult(
@@ -202,13 +219,13 @@ class SearchFragment : Fragment(), ClickListener {
             data
         );
 
-        Timber.i("retour codebar: ${result.getContents()}")
+        Timber.i("return codebar ${result.contents}")
 
-        if(result.getContents() == null) {
+        if(result.contents == null) {
             medicNotFound()
         } else {
-            if (result.getContents().length == 13)
-                getByCip13(result.getContents())
+            if (result.contents.length == 13)
+                getByCip13(result.contents)
             else
                 medicNotFound()
         }
