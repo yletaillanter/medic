@@ -92,7 +92,6 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
 
     //Mettre à jour la liste des données
     fun replace(data: ArrayList<Medicament>) {
-        Timber.i("adapter replace")
         this.mDataset!!.clear()
         this.mDataset = data
         this.notifyDataSetChanged()
