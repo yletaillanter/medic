@@ -46,12 +46,6 @@ class SearchFragment : Fragment(), ClickListener {
         if (model.searchQuery != "")
             startSearching(model.searchQuery)
 
-        /*
-        model.medic.observe(viewLifecycleOwner, Observer {
-            result -> adapter.replace(result);
-        })
-         */
-
         return binding.root
     }
 
@@ -146,7 +140,6 @@ class SearchFragment : Fragment(), ClickListener {
 
     fun startSearching(query: String) {
         Timber.i("Start searching: $query")
-        //model.searchMedicByNameTest2(query)
 
         compositeDisposable.add(
             model.searchMedicByName(query)
@@ -157,7 +150,8 @@ class SearchFragment : Fragment(), ClickListener {
                         Toast.LENGTH_LONG
                     ).show()
                 }.subscribe { response ->
-                    adapter.replace(response)
+                    this.data = response
+                    adapter.replace(this.data)
                 },
         )
     }
