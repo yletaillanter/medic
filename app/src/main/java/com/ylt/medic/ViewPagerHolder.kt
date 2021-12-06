@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ylt.medic.Constants
 import com.ylt.medic.R
@@ -23,16 +24,15 @@ class ViewPagerHolder constructor(itemView: View) : RecyclerView.ViewHolder(item
         )
     )
 
-
-    fun bind(medic: Medicament, category: String, context: Context?) {
-
+    fun bind(medic: Medicament, category: String, noticeUtility: String, progressBarStatus: Boolean, context: Context?) {
         lateinit var cardView: CardView
         itemView.cardview_receiver.removeAllViews()
 
         when(category) {
             Constants.INFO_GENERALES -> {
                 cardView = FrontPageCardView(itemView.context)
-                cardView.setMedicament(medic)
+                cardView.setMedicament(medic, noticeUtility)
+                cardView.progressBarStatus(progressBarStatus)
                 itemView.cardview_receiver.addView(cardView)
 
                 cardView = InfoGeneralCardView(itemView.context)

@@ -13,18 +13,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top">
 
+
+        <!--
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|snap">
+            app:layout_scrollFlags="scroll|snap|enterAlways|enterAlwaysCollapsed"> -->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
-                android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                app:layout_collapseMode="pin" />
+
+        <!-- </com.google.android.material.appbar.CollapsingToolbarLayout> -->
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView

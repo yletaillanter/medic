@@ -7,6 +7,6 @@ class MedicApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        //Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this)
     }
 }

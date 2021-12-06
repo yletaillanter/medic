@@ -19,7 +19,7 @@ import timber.log.Timber
 
 class BookmarkFragment : Fragment(), ClickListener {
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     lateinit var data:ArrayList<Medicament>
     lateinit var adapter: AdapterMedicSearch
 
@@ -38,7 +38,7 @@ class BookmarkFragment : Fragment(), ClickListener {
         recyclerView.layoutManager = layoutManager
 
         data = ArrayList()
-        adapter = AdapterMedicSearch();
+        adapter = AdapterMedicSearch()
         adapter.replace(data)
         adapter.setContext(context as MainActivity)
         adapter.setClickListener(this)
@@ -49,7 +49,7 @@ class BookmarkFragment : Fragment(), ClickListener {
     }
 
     private fun loadData() {
-        data = ArrayList( model.getBookmarked());
+        data = ArrayList( model.getBookmarked())
         Timber.i("getBookmarked: $data")
         adapter.replace(data)
         adapter.notifyDataSetChanged()
