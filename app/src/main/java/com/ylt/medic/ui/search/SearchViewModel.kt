@@ -1,9 +1,9 @@
 package com.ylt.medic.ui.search
 
 import android.app.Application
+import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.preference.PreferenceManager
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,33 +21,51 @@ import timber.log.Timber
  */
 class SearchViewModel(application:Application) : AndroidViewModel(application) {
 
-    // Adresse du serveur
-    //private val BASE_URL = "http://10.0.2.2:3000/"
-    private val BASE_URL = "http://192.168.1.17:9001/"
+    private lateinit var prefs: SharedPreferences
 
-    private val retrofit = Retrofit.Builder()
+    private var retrofit = Retrofit.Builder()
             .client(OkHttpClient.Builder().build())
-            .baseUrl(BASE_URL)
+            .baseUrl(getBaseUrl())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .build();
+            .build()
 
-    private val interfaceRest: InterfaceRest = retrofit.create(InterfaceRest::class.java)
+    private var interfaceRest: InterfaceRest = retrofit.create(InterfaceRest::class.java)
 
     var searchQuery: String = ""
+
+    private fun getBaseUrl(): String {
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())
+
+        Timber.i("using URL from preferences: ${prefs.getString("protocol", null)!!}://${prefs.getString("address", null)!!}:${prefs.getString("port", null)!!}/")
+        return "${prefs.getString("protocol", null)!!}://${prefs.getString("address", null)!!}:${prefs.getString("port", null)!!}/"
+    }
+
+    fun reloadRetrofit() {
+        Timber.d("recreating retrofit with url: ${getBaseUrl()}")
+
+        retrofit = Retrofit.Builder()
+            .client(OkHttpClient.Builder().build())
+            .baseUrl(getBaseUrl())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        interfaceRest = retrofit.create(InterfaceRest::class.java)
+    }
 
     /* REST CALL */
     fun getMedicByCis(cis: String): Flowable<Medicament> {
         return interfaceRest.getMedicByCis(cis)
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun searchMedicByName(query: String): Flowable<ArrayList<Medicament>> {
         return interfaceRest.searchMedicByName(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { it -> Timber.e("error onsearchMedicByName $it") }
+                .doOnError { Timber.e("error searchMedicByName $it") }
                 .onErrorReturn {ArrayList()}
     }
 
@@ -55,7 +73,7 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return interfaceRest.getMedicByCip13(cip)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { e -> Timber.e("error while getting medicByCip13: ${e.message}") };
+                .doOnError { e -> Timber.e("error while getting medicByCip13: ${e.message}") }
     }
 
     /* DATABASE */
@@ -102,28 +120,18 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
         return MedicDatabase.getInstance(getApplication()).medicamentDao().getIdByCis(cis)
     }
 
-    fun medicToArrayList(medicament: Medicament): ArrayList<Medicament> {
-        val result: ArrayList<Medicament> = ArrayList()
-        result.add(medicament)
-        return result
-    }
-
     internal fun getBookmarked(): List<Medicament> {
         return MedicDatabase.getInstance(getApplication()).medicamentDao().getBookmarked()
     }
 
     internal fun deleteTableContent() {
-        MedicDatabase.getInstance(getApplication()).asmrDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).compoDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).conditionPrescriptionDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).generiqueDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).infoImportantDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).medicamentDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).presentationDao().deleteTable();
-        MedicDatabase.getInstance(getApplication()).smrDao().deleteTable();
+        MedicDatabase.getInstance(getApplication()).asmrDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).compoDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).conditionPrescriptionDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).generiqueDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).infoImportantDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).medicamentDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).presentationDao().deleteTable()
+        MedicDatabase.getInstance(getApplication()).smrDao().deleteTable()
     }
-
-    private val _medic = MutableLiveData<ArrayList<Medicament>>()
-    val medic: LiveData<ArrayList<Medicament>>
-        get() = _medic
 }

@@ -10,11 +10,11 @@ import retrofit2.http.Path
  */
 interface InterfaceRest {
     @GET("search/{query}")
-    abstract fun searchMedicByName(@Path("query") query: String): Flowable<ArrayList<Medicament>>
+    fun searchMedicByName(@Path("query") query: String): Flowable<ArrayList<Medicament>>
 
     @GET("all/{cis}")
-    abstract fun getMedicByCis(@Path("cis") cis: String): Flowable<Medicament>
+    fun getMedicByCis(@Path("cis") cis: String): Flowable<Medicament>
 
     @GET("cip13/{cip13}")
-    abstract fun getMedicByCip13(@Path("cip13") cip13: String): Flowable<Medicament>
+    fun getMedicByCip13(@Path("cip13") cip13: String): Flowable<Medicament>
 }

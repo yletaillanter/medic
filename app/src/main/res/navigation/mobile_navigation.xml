@@ -31,6 +31,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.ylt.medic.ui.settings.SettingsFragment"
+        android:label="@string/title_settings" />
+
+    <fragment
         android:id="@+id/navigation_about"
         android:name="com.ylt.medic.ui.about.AboutFragment"
         android:label="@string/title_about"

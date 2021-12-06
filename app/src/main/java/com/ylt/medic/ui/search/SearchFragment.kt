@@ -1,6 +1,7 @@
 package com.ylt.medic.ui.search
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.zxing.integration.android.IntentIntegrator
@@ -19,6 +21,7 @@ import com.ylt.medic.adapter.ClickListener
 import com.ylt.medic.database.model.Medicament
 import com.ylt.medic.databinding.FragmentSearchBinding
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_search.*
 import timber.log.Timber
 
 
@@ -27,20 +30,26 @@ class SearchFragment : Fragment(), ClickListener {
     lateinit var data: ArrayList<Medicament>
     lateinit var adapter: AdapterMedicSearch
 
-    lateinit var model: SearchViewModel;
+    lateinit var model: SearchViewModel
     private lateinit var searchView: SearchView
 
-    var compositeDisposable = CompositeDisposable()
+    private var compositeDisposable = CompositeDisposable()
 
     private lateinit var binding: FragmentSearchBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private lateinit var prefs: SharedPreferences
+
+    private var listener =
+        SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
+            model.reloadRetrofit()
+            Timber.d("OnSharedPreferenceChangeListener $prefs $key")
+        }
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         Timber.i("onCreateView SearchFragment-cycle")
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
+
         initLayoutElement()
 
         if (model.searchQuery != "")
@@ -49,44 +58,43 @@ class SearchFragment : Fragment(), ClickListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
         model = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.options_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
-        Timber.i("onCreateOptionsMenu")
 
         val mSearch = menu.findItem(R.id.search)
         searchView = mSearch.actionView as SearchView
 
-        /*
-        searchView = SearchView((context as MainActivity).supportActionBar!!.themedContext)
-
-        menu.findItem(R.id.search).apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            actionView = searchView
-        }
-        */
-
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 when (newText.length) {
-                    in 0..2 -> adapter.clear();
+                    in 0..2 -> adapter.clear()
                     else -> {
                         Timber.i("onQueryTextChange $newText")
+                        if(progress != null)
+                            progress.visibility = View.VISIBLE
                         model.searchQuery = newText
                         startSearching(newText)
                     }
                 }
+
                 return false
             }
         })
@@ -146,24 +154,24 @@ class SearchFragment : Fragment(), ClickListener {
                 .doOnError {
                     Toast.makeText(
                         context,
-                        "Impossible de faire la recherche, vérifier votre connexion",
+                        "Impossible de faire la recherche, pas de connexion",
                         Toast.LENGTH_LONG
                     ).show()
                 }.subscribe { response ->
                     this.data = response
+                    if(progress != null)
+                        progress.visibility = View.GONE
                     adapter.replace(this.data)
                 },
         )
     }
 
     fun getByCip13(cip: String) {
-        Timber.i("getByCip13")
+        Timber.d("getByCip13")
 
         compositeDisposable.add(
             model.getMedicByCip13(cip).subscribe { response ->
-                Timber.d("response: $response")
-                this.data = model.medicToArrayList(response)
-                Timber.d("format: $this.data")
+                this.data = arrayListOf(response)
                 adapter.replace(this.data)
             }
         )
@@ -174,18 +182,17 @@ class SearchFragment : Fragment(), ClickListener {
 
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
-                val medic = response
-                var id = model.insertFullMedic(medic)
+                val id = model.insertFullMedic(response)
                 view?.findNavController()?.navigate(
                     SearchFragmentDirections.actionNavigationSearchToNavigationDetailed(
-                        id[0], medic.denomination.split(",")[0]
+                        id[0], response.denomination.split(",")[0]
                     )
                 )
             }
         )
     }
     private fun getMedicByCis(cis: String) {
-        Timber.i("getMedicByCis: $cis")
+        Timber.d("getMedicByCis: $cis")
 
         compositeDisposable.add(
             model.getMedicByCis(cis).subscribe { response ->
@@ -196,33 +203,32 @@ class SearchFragment : Fragment(), ClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            //R.id.barcode -> IntentIntegrator(activity).initiateScan();
-            R.id.barcode -> IntentIntegrator.forSupportFragment(this).initiateScan();
-
+            R.id.barcode -> IntentIntegrator.forSupportFragment(this).initiateScan()
         }
         return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.i("onActivityResult")
+        Timber.d("onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
+        if(progress != null)
+            progress.visibility = View.VISIBLE
 
-        val result: IntentResult = IntentIntegrator.parseActivityResult(
-            requestCode,
-            resultCode,
-            data
-        );
+        val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
-        Timber.i("return codebar ${result.contents}")
+        Timber.d("return codebar ${result.contents}")
 
         if(result.contents == null) {
             medicNotFound()
         } else {
             if (result.contents.length == 13)
                 getByCip13(result.contents)
-            else
+            else {
                 medicNotFound()
+            }
         }
+        if(progress != null)
+            progress.visibility = View.GONE
     }
 
     private fun medicNotFound() {
