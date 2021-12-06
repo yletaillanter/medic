@@ -23,28 +23,23 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
     private var mDataset: ArrayList<Medicament>? = ArrayList<Medicament>()
     private var medoc: Medicament? = null
 
-    // Constructor
-    fun AdapterAnnonceDemandeur(context: Context, mDataset: ArrayList<Medicament>) {
-        this.context = context
-        this.mDataset = mDataset
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.card_medic_search, parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        medoc = mDataset!!.get(position)
+        medoc = mDataset!![position]
 
-        // set view from medoc
-        holder.denomination.text = medoc!!.denomination.split(",")[0];
-        holder.formePharma.text = medoc!!.formePharma;
+        // set view from medicament
+        holder.denomination.text = medoc!!.denomination.split(",")[0]
+        holder.formePharma.text = medoc!!.formePharma
 
         when(medoc!!.formePharma) {
             "comprimé",
             "comprimé pélliculé sécable",
             "comprimé enrobé" -> holder.logoFormePharma.setImageResource(R.drawable.comprime)
+
             "comprimé pélliculé" -> holder.logoFormePharma.setImageResource(R.drawable.comprime_pellicule)
             "solution injectable" -> holder.logoFormePharma.setImageResource(R.drawable.seringue)
             "gélule" -> holder.logoFormePharma.setImageResource(R.drawable.gelule)
@@ -53,13 +48,11 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
             "sirop" -> holder.logoFormePharma.setImageResource(R.drawable.sirop)
             "crème" -> holder.logoFormePharma.setImageResource(R.drawable.creme)
             "suppositoire" -> holder.logoFormePharma.setImageResource(R.drawable.suppositoires)
+            else -> holder.logoFormePharma.setImageResource(R.drawable.comprime)
         }
-
-        //setAnimation(holder.itemView, position)
     }
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
-        // UI element (R.layout.card_annonce_demandeur)
         internal var denomination: TextView = v.findViewById(R.id.denomination) as TextView
         internal var formePharma: TextView = v.findViewById(R.id.forme_pharma) as TextView
         internal var logoFormePharma: ImageView = v.findViewById(R.id.logo_forme) as ImageView
@@ -90,7 +83,6 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
         notifyItemInserted(position)
     }
 
-    //Mettre à jour la liste des données
     fun replace(data: ArrayList<Medicament>) {
         this.mDataset!!.clear()
         this.mDataset = data
@@ -98,7 +90,7 @@ class AdapterMedicSearch: RecyclerView.Adapter<AdapterMedicSearch.ViewHolder>() 
     }
 
     fun setContext(context: Context) {
-        this.context = context;
+        this.context = context
     }
 
     fun clear(){

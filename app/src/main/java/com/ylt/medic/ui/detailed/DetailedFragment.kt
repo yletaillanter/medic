@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ylt.medic.Constants
 import com.ylt.medic.R
-import com.ylt.medic.adapter.ViewPagerAdapter
+import com.ylt.medic.ViewPagerAdapter
 import com.ylt.medic.database.model.Medicament
 import timber.log.Timber
 
@@ -24,7 +24,7 @@ class DetailedFragment : Fragment() {
         fun newInstance() = DetailedFragment()
     }
 
-    val categories = listOf(
+    private val categories = listOf(
         Constants.INFO_GENERALES,
         Constants.BOITES,
         Constants.GENERIQUES,
@@ -33,14 +33,9 @@ class DetailedFragment : Fragment() {
         Constants.AUTRES
     )
 
-    lateinit var currentMedicament: Medicament
+    private lateinit var currentMedicament: Medicament
 
     lateinit var model: DetailedViewModel
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //(requireActivity() as AppCompatActivity).supportActionBar?.hide()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,14 +57,23 @@ class DetailedFragment : Fragment() {
 
         //Get the medic
         val args: DetailedFragmentArgs by navArgs()
-        currentMedicament = model.getByCis(args.id)
-        Timber.i("getting safeargs ${args.id}")
-        activity?.setTitle(currentMedicament.denomination)
+        //currentMedicament = model.getByCis(args.id)
+        currentMedicament = model.getLiveDataMedic(args.id).value!!
+
+        activity?.title = currentMedicament.denomination
 
         // viewpager adapter
         val localAdapter = ViewPagerAdapter(context)
         localAdapter.setMedic(categories, currentMedicament)
         viewPager2.adapter = localAdapter
+
+        model.notice.observe(viewLifecycleOwner, Observer<String> {
+                localAdapter.setNotice(it)
+                localAdapter.setProgressBarStatus(false)
+                localAdapter.notifyDataSetChanged()
+            }
+        )
+        model.getLiveDataNotice(currentMedicament.codeCis)
 
         // TabLayout mediator
         TabLayoutMediator(tabLayout, viewPager2,
@@ -86,16 +90,12 @@ class DetailedFragment : Fragment() {
                 }
             }).attach()
 
-        return root;
+        return root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -106,7 +106,6 @@ class DetailedFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.bookmark -> {
-                Timber.i("click on medic bookmark state: ${!currentMedicament.isBookmarked}")
                 val state = !currentMedicament.isBookmarked
                 model.setBookmarked(currentMedicament.id, state)
                 when (state) {
@@ -122,9 +121,7 @@ class DetailedFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
 
         when(currentMedicament.isBookmarked) {
-            // faulse by default
             true -> {
-                Timber.i("when true")
                 menu.findItem(R.id.bookmark).setIcon(R.drawable.ic_bookmark_black_24dp)
             }
         }
