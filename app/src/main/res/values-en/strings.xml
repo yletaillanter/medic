@@ -2,7 +2,7 @@
     <string name="title_search">Search</string>
     <string name="title_bookmark">Bookmarked</string>
     <string name="title_about">About</string>
-    <string name="search_hint">Type medicament name</string>
+    <string name="search_hint">Type drug\'s name</string>
     <string name="label_status">Status:</string>
     <string name="label_titulaire">Owner:</string>
     <string name="label_info_general">Information</string>
@@ -18,4 +18,11 @@
     <string name="date_fin">End Date:</string>
     <string name="title_activity_detail_view_pager">DetailViewPager</string>
     <string name="label_date_decla_commer">Date commer. :</string>
+    <string name="app_name">Drug</string>
+    <string name="search_title">Search</string>
+    <string name="label_forme_pharma">Form:</string>
+    <string name="label_voie_admin">Type:</string>
+    <string name="label_code_substance">Code:</string>
+    <string name="no_data">Impossible de charger les données</string>
+    <string name="title_settings">Settings</string>
 </resources>

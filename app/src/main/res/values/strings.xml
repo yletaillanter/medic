@@ -36,14 +36,31 @@
     <string name="label_libelle_asmr">Libellé du ASMR :</string>
     <string name="label_valeur_asmr">Valeur de l\'ASMR :</string>
     <string name="label_motif_eval_asmr">Motif d\'évaluation ASMR :</string>
-    <string name="label_date_avis_asmr">Date avis :</string>
+    <string name="label_date_avis_asmr">Date de l\'avis :</string>
     <string name="info_importantes">Informations Importantes</string>
     <string name="date_deb">Date de début :</string>
-    <string name="date_fin">Date fin :</string>
+    <string name="date_fin">Date de fin :</string>
     <string name="notice_d_utilisation">Notice d\'utilisation</string>
     <string name="generique_title">Générique</string>
     <string name="title_activity_detail_view_pager">DetailViewPager</string>
     <string name="label_date_decla_commer">Date commer. :</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="barcode_search">Barcode search</string>
+    <string name="search">Chercher</string>
+    <string name="bookmark_medic">bookmark_medic</string>
+    <string name="app_description">Cette application Android permet de consulter les informations des médicaments du marché français. Ces données sont mise à disposition par la HAS. Médicament ne se soustrait pas à l\'avi d\'un professionnel de santé. Toutes les données sont fournit \"telle quelle\" comme elles ont était mise à disposition par la HAS.</string>
+    <string name="contact_group" translatable="false">ylt.medicament@gmail.com</string>
+    <string name="no_data">Impossible de charger les données</string>
+    <string name="title_settings">Configuration</string>
+
+    <string-array name="protocol">
+        <item>http</item>
+        <item>https</item>
+    </string-array>
+
+    <string-array name="protocol_values">
+        <item>http</item>
+        <item>https</item>
+    </string-array>
+
+
 </resources>
