@@ -15,7 +15,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 /**
- * Created by yoannlt on 08/07/2017.
+ * Created by yoannlt on 06/12/2020.
  */
 class DetailedViewModel(application:Application) : AndroidViewModel(application) {
 
@@ -64,8 +64,8 @@ class DetailedViewModel(application:Application) : AndroidViewModel(application)
         viewModelScope.launch {
             val result = makeHttpRequest("http://base-donnees-publique.medicaments.gouv.fr/affichageDoc.php?specid=${cis}&typedoc=N")
 
-            if (result.allElements.size > 9) {
-                for(index in 8..20)
+            if (result.getElementsByClass("AmmCorpsTexte").size > 9) {
+                for (index in 8..9)
                     _notice.value += result.getElementsByClass("AmmCorpsTexte")[index].text() + "\n\n"
 
                 // TODO remove properly
@@ -115,7 +115,8 @@ class DetailedViewModel(application:Application) : AndroidViewModel(application)
         }
     }
 
-    private suspend fun makeHttpRequest(url: String) = withContext(Dispatchers.Default) {
-        Jsoup.connect(url).get()
-    }
+    private suspend fun makeHttpRequest(url: String)
+        = withContext(Dispatchers.IO) {
+                Jsoup.connect(url).get()
+            }
 }

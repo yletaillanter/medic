@@ -37,8 +37,8 @@ class SearchViewModel(application:Application) : AndroidViewModel(application) {
     private fun getBaseUrl(): String {
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())
 
-        Timber.i("using URL from preferences: ${prefs.getString("protocol", null)!!}://${prefs.getString("address", null)!!}:${prefs.getString("port", null)!!}/")
-        return "${prefs.getString("protocol", null)!!}://${prefs.getString("address", null)!!}:${prefs.getString("port", null)!!}/"
+        Timber.i("using URL from preferences: ${prefs.getString("protocol", "http")!!}://${prefs.getString("address", "192.168.1.27")!!}:${prefs.getString("port", "9001")!!}/")
+        return "${prefs.getString("protocol", "http")!!}://${prefs.getString("address", "192.168.1.27")!!}:${prefs.getString("port", "9001")!!}/"
     }
 
     fun reloadRetrofit() {

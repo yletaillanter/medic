@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -13,21 +14,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top">
 
-
-        <!--
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|snap|enterAlways|enterAlwaysCollapsed"> -->
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:layout_collapseMode="pin" />
-
-        <!-- </com.google.android.material.appbar.CollapsingToolbarLayout> -->
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView
@@ -39,7 +31,8 @@
         app:navGraph="@navigation/mobile_navigation"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/nav_view" />
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        android:fitsSystemWindows="true"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -48,5 +41,6 @@
         android:background="?android:attr/windowBackground"
         app:menu="@menu/bottom_nav_menu"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        android:fitsSystemWindows="true"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

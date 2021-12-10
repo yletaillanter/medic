@@ -2,6 +2,7 @@ package com.ylt.medic.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.ylt.medic.R
@@ -46,8 +47,21 @@ class BoiteCardView @JvmOverloads constructor(
         libelle!!.text = presentation?.libellePresentation
         statut!!.text = presentation?.statutAdminPres
         dateDeclaCommer!!.text = presentation?.dateDeclaCommer
-        rembRate!!.text = presentation?.txRemboursement
-        price!!.text = "${presentation?.prixMedicEuro}€"
+
+        if (!presentation?.txRemboursement.isNullOrEmpty())
+            rembRate!!.text = presentation?.txRemboursement
+        else
+            rembRate!!.visibility = View.GONE
+        if (!presentation?.prixMedicEuro.isNullOrEmpty())
+            price!!.text = "${presentation?.prixMedicEuro}€"
+        else
+            price!!.visibility = View.GONE
+
+
+        //rembRate!!.text = presentation?.txRemboursement
+        //price!!.text = "${presentation?.prixMedicEuro}€"
+
+
         indicDroitRemb!!.text = presentation?.indicDroitRemb
     }
 }

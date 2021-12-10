@@ -16,6 +16,7 @@ import com.ylt.medic.R
 import com.ylt.medic.ViewPagerAdapter
 import com.ylt.medic.database.model.Medicament
 import timber.log.Timber
+import com.google.android.material.snackbar.Snackbar
 
 
 class DetailedFragment : Fragment() {
@@ -43,13 +44,13 @@ class DetailedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root =  inflater.inflate(R.layout.fragment_detailed, container, false)
-        Timber.i("onCreateView")
 
-        model = ViewModelProvider(this).get(DetailedViewModel::class.java)
+        model = ViewModelProvider(this)[DetailedViewModel::class.java]
 
         val appBarLayout = activity?.findViewById(R.id.appbar_layout) as AppBarLayout
         appBarLayout.setExpanded(true, false)
-        val toolbar = activity?.findViewById(R.id.toolbar) as Toolbar
+
+        activity!!.actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val tabLayout: TabLayout = root.findViewById(R.id.tabLayout)
         val viewPager2: ViewPager2 = root.findViewById(R.id.viewPager2)
@@ -57,7 +58,6 @@ class DetailedFragment : Fragment() {
 
         //Get the medic
         val args: DetailedFragmentArgs by navArgs()
-        //currentMedicament = model.getByCis(args.id)
         currentMedicament = model.getLiveDataMedic(args.id).value!!
 
         activity?.title = currentMedicament.denomination
@@ -68,12 +68,15 @@ class DetailedFragment : Fragment() {
         viewPager2.adapter = localAdapter
 
         model.notice.observe(viewLifecycleOwner, Observer<String> {
+                Timber.i("Call model.notice")
                 localAdapter.setNotice(it)
                 localAdapter.setProgressBarStatus(false)
                 localAdapter.notifyDataSetChanged()
             }
         )
-        model.getLiveDataNotice(currentMedicament.codeCis)
+
+        if (model.notice.value.isNullOrEmpty())
+            model.getLiveDataNotice(currentMedicament.codeCis)
 
         // TabLayout mediator
         TabLayoutMediator(tabLayout, viewPager2,
@@ -109,8 +112,14 @@ class DetailedFragment : Fragment() {
                 val state = !currentMedicament.isBookmarked
                 model.setBookmarked(currentMedicament.id, state)
                 when (state) {
-                    true -> item.setIcon(R.drawable.ic_bookmark_black_24dp)
-                    false -> item.setIcon(R.drawable.ic_baseline_bookmark_border_24)
+                    true -> {
+                        item.setIcon(R.drawable.ic_bookmark_black_24dp)
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), resources.getString(R.string.add_bookmarked), Snackbar.LENGTH_SHORT).show()
+                    }
+                    false -> {
+                        item.setIcon(R.drawable.ic_baseline_bookmark_border_24)
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), resources.getString(R.string.del_bookmarked), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

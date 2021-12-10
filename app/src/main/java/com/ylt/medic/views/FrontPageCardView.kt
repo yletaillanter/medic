@@ -2,11 +2,11 @@ package com.ylt.medic.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import com.ylt.medic.R
 import com.ylt.medic.database.model.Medicament
@@ -52,15 +52,22 @@ class FrontPageCardView @JvmOverloads constructor (
         price = findViewById(R.id.price)
         rembRate = findViewById(R.id.remb_rate)
         buttonNotice = findViewById(R.id.button_notice)
-        noticeTextView = findViewById(R.id.notice_toto)
+        noticeTextView = findViewById(R.id.notice_holder)
+        progressBar = findViewById(R.id.progress_bar_info)
 
         // Set text to views elements
         denomination!!.text = medicament?.denomination
         formePharma!!.text = medicament?.formePharma
         voieAdmin!!.text = medicament?.voieAdministration
         if (medicament!!.presentations.isNotEmpty()) {
-            price!!.text = "${medicament!!.presentations[0].prixMedicEuro}€"
-            rembRate!!.text = medicament!!.presentations[0].txRemboursement
+            if (!medicament!!.presentations[0].prixMedicEuro.isNullOrEmpty())
+                price!!.text = "${medicament!!.presentations[0].prixMedicEuro}€"
+            else
+                price!!.visibility = View.GONE
+            if (!medicament!!.presentations[0].txRemboursement.isNullOrEmpty())
+                rembRate!!.text = medicament!!.presentations[0].txRemboursement
+            else
+                rembRate!!.visibility = View.GONE
         }
         buttonNotice.setOnClickListener {
             it?.findNavController()?.navigate(DetailedFragmentDirections.actionNavigationDetailedToNoticeFragment(medicament!!.codeCis, medicament!!.denomination.split(",")[0]))
@@ -69,10 +76,6 @@ class FrontPageCardView @JvmOverloads constructor (
     }
 
     fun progressBarStatus(progressBarStatus: Boolean) {
-        if (progressBarStatus && progressBar != null)
-            progressBar!!.visibility = VISIBLE
-        else if (!progressBarStatus && progressBar != null)
-            progressBar!!.visibility = GONE
-
+        if (progressBarStatus) progressBar!!.visibility = VISIBLE else progressBar!!.visibility = GONE
     }
 }

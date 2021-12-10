@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Médicament</string>
     <string name="title_search">Rechercher</string>
-    <string name="title_bookmark">Sauvegardé</string>
+    <string name="title_bookmark">Favoris</string>
     <string name="title_about">À propos</string>
     <string name="search_title">Rechercher</string>
     <string name="search_hint">Entrer un nom de médicament</string>
@@ -51,6 +51,9 @@
     <string name="contact_group" translatable="false">ylt.medicament@gmail.com</string>
     <string name="no_data">Impossible de charger les données</string>
     <string name="title_settings">Configuration</string>
+    <string name="add_bookmarked">Médicament ajouté aux favoris !</string>
+    <string name="del_bookmarked">Médicament retiré des favoris !"</string>
+
 
     <string-array name="protocol">
         <item>http</item>
